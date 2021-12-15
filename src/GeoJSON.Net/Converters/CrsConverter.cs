@@ -3,9 +3,9 @@
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using GeoJSON.Net.CoordinateReferenceSystem;
+using GeoJSON.Text.CoordinateReferenceSystem;
 
-namespace GeoJSON.Net.Converters;
+namespace GeoJSON.Text.Converters;
 
 /// <summary>
 /// Converts <see cref="ICRSObject"/> types to and from JSON.

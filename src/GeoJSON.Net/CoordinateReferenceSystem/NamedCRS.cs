@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace GeoJSON.Net.CoordinateReferenceSystem
+namespace GeoJSON.Text.CoordinateReferenceSystem
 {
     /// <summary>
     /// Defines the Named CRS type. 

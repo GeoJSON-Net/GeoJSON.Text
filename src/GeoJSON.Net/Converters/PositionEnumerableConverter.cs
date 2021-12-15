@@ -3,11 +3,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+using GeoJSON.Text.Geometry;
+
 using Newtonsoft.Json.Linq;
 
-namespace GeoJSON.Net.Converters
+namespace GeoJSON.Text.Converters
 {
     /// <summary>
     /// Converter to read and write the <see cref="IEnumerable{IPosition}" /> type.

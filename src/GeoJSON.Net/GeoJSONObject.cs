@@ -2,14 +2,14 @@
 
 using System.Linq;
 using System.Runtime.Serialization;
-using GeoJSON.Net.Converters;
-using GeoJSON.Net.CoordinateReferenceSystem;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using GeoJSON.Text.Converters;
+using GeoJSON.Text.CoordinateReferenceSystem;
+
+
 using System.Collections.Generic;
 using System;
 
-namespace GeoJSON.Net
+namespace GeoJSON.Text
 {
     /// <summary>
     ///     Base class for all IGeometryObject implementing types

@@ -1,6 +1,6 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
-namespace GeoJSON.Net.CoordinateReferenceSystem
+namespace GeoJSON.Text.CoordinateReferenceSystem
 {
     /// <summary>
     /// Represents an unspecified Coordinate Reference System 

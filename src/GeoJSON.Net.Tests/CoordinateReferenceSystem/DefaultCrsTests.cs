@@ -1,10 +1,10 @@
-using GeoJSON.Net.CoordinateReferenceSystem;
-using GeoJSON.Net.Feature;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+using GeoJSON.Text.CoordinateReferenceSystem;
+using GeoJSON.Text.Feature;
+using GeoJSON.Text.Geometry;
+
 using NUnit.Framework;
 
-namespace GeoJSON.Net.Tests.CoordinateReferenceSystem
+namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
 {
     [TestFixture]
     public class DefaultCrsTests : TestBase

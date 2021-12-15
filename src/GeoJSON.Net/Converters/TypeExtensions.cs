@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 #endif
 
-namespace GeoJSON.Net.Converters
+namespace GeoJSON.Text.Converters
 {
     public static class TypeExtensions
     {

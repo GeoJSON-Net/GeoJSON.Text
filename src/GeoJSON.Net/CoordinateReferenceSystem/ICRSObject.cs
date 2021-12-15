@@ -1,15 +1,14 @@
-﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
+﻿// Copyright © Matt Hunt 2021
 
-namespace GeoJSON.Net.CoordinateReferenceSystem
+namespace GeoJSON.Text.CoordinateReferenceSystem;
+
+/// <summary>
+/// Base Interface for CRSBase Object types.
+/// </summary>
+public interface ICRSObject
 {
     /// <summary>
-    /// Base Interface for CRSBase Object types.
+    /// Gets the CRS type.
     /// </summary>
-    public interface ICRSObject
-    {
-        /// <summary>
-        /// Gets the CRS type.
-        /// </summary>
-        CRSType Type { get; }
-    }
+    CRSType Type { get; }
 }

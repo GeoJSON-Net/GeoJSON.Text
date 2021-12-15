@@ -1,21 +1,19 @@
-﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
+﻿// Copyright © Matt Hunt 2021
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text.Json.Serialization;
+using GeoJSON.Text.Geometry;
 
-namespace GeoJSON.Net.Converters
+namespace GeoJSON.Text.Converters
 {
     /// <summary>
     /// Converts <see cref="IGeometryObject"/> types to and from JSON.
     /// </summary>
-    public class GeometryConverter : JsonConverter
+    public class GeometryConverter : JsonConverter<IGeometryObject>
     {
-        public override bool CanWrite => false;
+        public override bool HandleNull => false;
 
         /// <summary>
         ///     Determines whether this instance can convert the specified object type.
@@ -39,6 +37,8 @@ namespace GeoJSON.Net.Converters
         /// <returns>
         ///     The object value.
         /// </returns>
+        
+
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             switch (reader.TokenType)

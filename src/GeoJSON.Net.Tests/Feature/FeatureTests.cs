@@ -1,11 +1,11 @@
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+using GeoJSON.Text.Geometry;
+
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GeoJSON.Net.Tests.Feature
+namespace GeoJSON.Text.Tests.Feature
 {
     [TestFixture]
     public class FeatureTests : TestBase
@@ -15,7 +15,7 @@ namespace GeoJSON.Net.Tests.Feature
         {
             var json = GetExpectedJson();
 
-            var feature = JsonConvert.DeserializeObject<Net.Feature.Feature>(json);
+            var feature = JsonConvert.DeserializeObject<Text.Feature.Feature>(json);
 
             Assert.IsNotNull(feature);
             Assert.IsNotNull(feature.Properties);
@@ -53,7 +53,7 @@ namespace GeoJSON.Net.Tests.Feature
             var geometry = new LineString(coordinates[0]);
 
 
-            var actualJson = JsonConvert.SerializeObject(new Net.Feature.Feature(geometry));
+            var actualJson = JsonConvert.SerializeObject(new Text.Feature.Feature(geometry));
 
             Console.WriteLine(actualJson);
 
@@ -85,7 +85,7 @@ namespace GeoJSON.Net.Tests.Feature
 
             var expectedJson = GetExpectedJson();
 
-            var actualJson = JsonConvert.SerializeObject(new Net.Feature.Feature(geometry));
+            var actualJson = JsonConvert.SerializeObject(new Text.Feature.Feature(geometry));
 
             JsonAssert.AreEqual(expectedJson, actualJson);
         }
@@ -96,7 +96,7 @@ namespace GeoJSON.Net.Tests.Feature
             var geometry = new Point(new Position(1, 2));
             var expectedJson = GetExpectedJson();
 
-            var actualJson = JsonConvert.SerializeObject(new Net.Feature.Feature(geometry));
+            var actualJson = JsonConvert.SerializeObject(new Text.Feature.Feature(geometry));
 
             JsonAssert.AreEqual(expectedJson, actualJson);
         }
@@ -114,7 +114,7 @@ namespace GeoJSON.Net.Tests.Feature
 
             var polygon = new Polygon(new List<LineString> { new LineString(coordinates) });
             var properties = new Dictionary<string, object> { { "Name", "Foo" } };
-            var feature = new Net.Feature.Feature(polygon, properties);
+            var feature = new Text.Feature.Feature(polygon, properties);
 
             var expectedJson = GetExpectedJson();
             var actualJson = JsonConvert.SerializeObject(feature);
@@ -159,7 +159,7 @@ namespace GeoJSON.Net.Tests.Feature
                 })
             });
 
-            var feature = new Net.Feature.Feature(multiPolygon);
+            var feature = new Text.Feature.Feature(multiPolygon);
 
             var expectedJson = GetExpectedJson();
             var actualJson = JsonConvert.SerializeObject(feature);
@@ -180,7 +180,7 @@ namespace GeoJSON.Net.Tests.Feature
                      StringProperty = "Hello, GeoJSON !"
                 };
 
-            Net.Feature.Feature feature = new Net.Feature.Feature(new Point(new Position(10, 10)), properties);
+            Text.Feature.Feature feature = new Text.Feature.Feature(new Point(new Position(10, 10)), properties);
 
             var expectedJson = this.GetExpectedJson();
             var actualJson = JsonConvert.SerializeObject(feature);
@@ -202,7 +202,7 @@ namespace GeoJSON.Net.Tests.Feature
                 StringProperty = "Hello, GeoJSON !"
             };
 
-            Net.Feature.Feature feature = new Net.Feature.Feature(new Point(new Position(10, 10)), properties);
+            Text.Feature.Feature feature = new Text.Feature.Feature(new Point(new Position(10, 10)), properties);
 
             Assert.IsNotNull(feature.Properties);
             Assert.IsTrue(feature.Properties.Count > 1);
@@ -224,7 +224,7 @@ namespace GeoJSON.Net.Tests.Feature
                 StringProperty = "Hello, GeoJSON !"
             };
 
-            Net.Feature.Feature feature = new Net.Feature.Feature(new Point(new Position(10, 10)), properties);
+            Text.Feature.Feature feature = new Text.Feature.Feature(new Point(new Position(10, 10)), properties);
 
             Assert.IsNotNull(feature.Properties);
             Assert.IsTrue(feature.Properties.Count > 1);
@@ -237,7 +237,7 @@ namespace GeoJSON.Net.Tests.Feature
         [Test]
         public void Ctor_Creates_Properties_Collection_When_Passed_Null_Proper_Object()
         {
-            Net.Feature.Feature feature = new Net.Feature.Feature(new Point(new Position(10, 10)), (object)null);
+            Text.Feature.Feature feature = new Text.Feature.Feature(new Point(new Position(10, 10)), (object)null);
 
             Assert.IsNotNull(feature.Properties);
             CollectionAssert.IsEmpty(feature.Properties);
@@ -258,7 +258,7 @@ namespace GeoJSON.Net.Tests.Feature
                 DoubleProperty = 1.2345d
             };
 
-            var left = new Net.Feature.Feature(new Point(new Position(10, 10)), leftProp);
+            var left = new Text.Feature.Feature(new Point(new Position(10, 10)), leftProp);
 
             var rightProp = new TestFeatureProperty
             {
@@ -270,7 +270,7 @@ namespace GeoJSON.Net.Tests.Feature
                 StringProperty = "Hello, GeoJSON !"
             };
 
-            var right = new Net.Feature.Feature(new Point(new Position(10, 10)), rightProp);
+            var right = new Text.Feature.Feature(new Point(new Position(10, 10)), rightProp);
 
             Assert_Are_Equal(left, right);
         }
@@ -284,11 +284,11 @@ namespace GeoJSON.Net.Tests.Feature
             var geometry10 = new Position(10, 10);
             var geometry20 = new Position(20, 20);
 
-            var left = new Net.Feature.Feature(new Point(
+            var left = new Text.Feature.Feature(new Point(
                 geometry10),
                 leftDictionary,
                 "abc");
-            var right = new Net.Feature.Feature(new Point(
+            var right = new Text.Feature.Feature(new Point(
                 geometry20),
                 rightDictionary,
                 "abc");
@@ -296,11 +296,11 @@ namespace GeoJSON.Net.Tests.Feature
             Assert_Are_Not_Equal(left, right); // different geometries
 
 
-            left = new Net.Feature.Feature(new Point(
+            left = new Text.Feature.Feature(new Point(
                 geometry10),
                 leftDictionary,
                 "abc");
-            right = new Net.Feature.Feature(new Point(
+            right = new Text.Feature.Feature(new Point(
                 geometry10),
                 rightDictionary,
                 "abc"); // identical geometries, different ids and or properties or not compared
@@ -314,43 +314,43 @@ namespace GeoJSON.Net.Tests.Feature
         {
             var geometry = GetGeometry();
 
-            var leftFeature = new Net.Feature.Feature(geometry);
+            var leftFeature = new Text.Feature.Feature(geometry);
             var leftJson = JsonConvert.SerializeObject(leftFeature);
-            var left = JsonConvert.DeserializeObject<Net.Feature.Feature>(leftJson);
+            var left = JsonConvert.DeserializeObject<Text.Feature.Feature>(leftJson);
 
-            var rightFeature = new Net.Feature.Feature(geometry);
+            var rightFeature = new Text.Feature.Feature(geometry);
             var rightJson = JsonConvert.SerializeObject(rightFeature);
-            var right = JsonConvert.DeserializeObject<Net.Feature.Feature>(rightJson);
+            var right = JsonConvert.DeserializeObject<Text.Feature.Feature>(rightJson);
 
             Assert_Are_Equal(left, right);
 
-            leftFeature = new Net.Feature.Feature(geometry, GetPropertiesInRandomOrder());
+            leftFeature = new Text.Feature.Feature(geometry, GetPropertiesInRandomOrder());
             leftJson = JsonConvert.SerializeObject(leftFeature);
-            left = JsonConvert.DeserializeObject<Net.Feature.Feature>(leftJson);
+            left = JsonConvert.DeserializeObject<Text.Feature.Feature>(leftJson);
 
-            rightFeature = new Net.Feature.Feature(geometry, GetPropertiesInRandomOrder());
+            rightFeature = new Text.Feature.Feature(geometry, GetPropertiesInRandomOrder());
             rightJson = JsonConvert.SerializeObject(rightFeature);
-            right = JsonConvert.DeserializeObject<Net.Feature.Feature>(rightJson);
+            right = JsonConvert.DeserializeObject<Text.Feature.Feature>(rightJson);
 
             Assert_Are_Equal(left, right); // assert properties doesn't influence comparison and hashcode
 
-            leftFeature = new Net.Feature.Feature(geometry, null, "abc_abc");
+            leftFeature = new Text.Feature.Feature(geometry, null, "abc_abc");
             leftJson = JsonConvert.SerializeObject(leftFeature);
-            left = JsonConvert.DeserializeObject<Net.Feature.Feature>(leftJson);
+            left = JsonConvert.DeserializeObject<Text.Feature.Feature>(leftJson);
 
-            rightFeature = new Net.Feature.Feature(geometry, null, "xyz_XYZ");
+            rightFeature = new Text.Feature.Feature(geometry, null, "xyz_XYZ");
             rightJson = JsonConvert.SerializeObject(rightFeature);
-            right = JsonConvert.DeserializeObject<Net.Feature.Feature>(rightJson);
+            right = JsonConvert.DeserializeObject<Text.Feature.Feature>(rightJson);
 
             Assert_Are_Equal(left, right); // assert id's doesn't influence comparison and hashcode
 
-            leftFeature = new Net.Feature.Feature(geometry, GetPropertiesInRandomOrder(), "abc");
+            leftFeature = new Text.Feature.Feature(geometry, GetPropertiesInRandomOrder(), "abc");
             leftJson = JsonConvert.SerializeObject(leftFeature);
-            left = JsonConvert.DeserializeObject<Net.Feature.Feature>(leftJson);
+            left = JsonConvert.DeserializeObject<Text.Feature.Feature>(leftJson);
 
-            rightFeature = new Net.Feature.Feature(geometry, GetPropertiesInRandomOrder(), "abc");
+            rightFeature = new Text.Feature.Feature(geometry, GetPropertiesInRandomOrder(), "abc");
             rightJson = JsonConvert.SerializeObject(rightFeature);
-            right = JsonConvert.DeserializeObject<Net.Feature.Feature>(rightJson);
+            right = JsonConvert.DeserializeObject<Text.Feature.Feature>(rightJson);
 
             Assert_Are_Equal(left, right); // assert id's + properties doesn't influence comparison and hashcode
         }
@@ -361,7 +361,7 @@ namespace GeoJSON.Net.Tests.Feature
             bool equal1 = true;
             bool equal2 = true;
 
-            var feature = new Net.Feature.Feature(new Point(new Position(12, 123)));
+            var feature = new Text.Feature.Feature(new Point(new Position(12, 123)));
             Assert.DoesNotThrow(() =>
             {
                 equal1 = feature.Equals(null);
@@ -377,7 +377,7 @@ namespace GeoJSON.Net.Tests.Feature
         {
             var equal1 = true;
 
-            Net.Feature.Feature feature = null;
+            Text.Feature.Feature feature = null;
             Assert.DoesNotThrow(() =>
             {
                 equal1 = feature != null;
@@ -392,7 +392,7 @@ namespace GeoJSON.Net.Tests.Feature
             bool equal1 = false;
             bool equal2 = false;
 
-            var feature = new Net.Feature.Feature(new Point(new Position(12, 123)));
+            var feature = new Text.Feature.Feature(new Point(new Position(12, 123)));
             Assert.DoesNotThrow(() =>
             {
                 equal1 = feature == feature;
@@ -409,8 +409,8 @@ namespace GeoJSON.Net.Tests.Feature
             bool equal1 = false;
             bool equal2 = false;
 
-            var feature1 = new Net.Feature.Feature(null);
-            var feature2 = new Net.Feature.Feature(new Point(new Position(12, 123)));
+            var feature1 = new Text.Feature.Feature(null);
+            var feature2 = new Text.Feature.Feature(new Point(new Position(12, 123)));
 
             Assert.DoesNotThrow(() =>
             {
@@ -428,8 +428,8 @@ namespace GeoJSON.Net.Tests.Feature
             bool equal1 = false;
             bool equal2 = false;
 
-            var feature1 = new Net.Feature.Feature(new Point(new Position(12, 123)));
-            var feature2 = new Net.Feature.Feature(null);
+            var feature1 = new Text.Feature.Feature(new Point(new Position(12, 123)));
+            var feature2 = new Text.Feature.Feature(null);
 
             Assert.DoesNotThrow(() =>
             {
@@ -447,8 +447,8 @@ namespace GeoJSON.Net.Tests.Feature
             bool equal1 = false;
             bool equal2 = false;
 
-            var feature1 = new Net.Feature.Feature(null);
-            var feature2 = new Net.Feature.Feature(null);
+            var feature1 = new Text.Feature.Feature(null);
+            var feature2 = new Text.Feature.Feature(null);
 
             Assert.DoesNotThrow(() =>
             {
@@ -505,7 +505,7 @@ namespace GeoJSON.Net.Tests.Feature
             return randomlyOrdered;
         }
 
-        private void Assert_Are_Equal(Net.Feature.Feature left, Net.Feature.Feature right)
+        private void Assert_Are_Equal(Text.Feature.Feature left, Text.Feature.Feature right)
         {
             Assert.AreEqual(left, right);
 
@@ -524,7 +524,7 @@ namespace GeoJSON.Net.Tests.Feature
             Assert.AreEqual(left.GetHashCode(), right.GetHashCode());
         }
 
-        private void Assert_Are_Not_Equal(Net.Feature.Feature left, Net.Feature.Feature right)
+        private void Assert_Are_Not_Equal(Text.Feature.Feature left, Text.Feature.Feature right)
         {
             Assert.AreNotEqual(left, right);
 

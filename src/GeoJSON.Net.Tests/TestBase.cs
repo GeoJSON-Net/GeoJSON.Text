@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace GeoJSON.Net.Tests
+namespace GeoJSON.Text.Tests
 {
     public abstract class TestBase
     {

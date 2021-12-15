@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using GeoJSON.Net.Converters;
-using Newtonsoft.Json;
+using GeoJSON.Text.Converters;
 
-namespace GeoJSON.Net.Geometry
+
+namespace GeoJSON.Text.Geometry
 {
     /// <summary>
     /// Defines the GeometryCollection type.

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using GeoJSON.Net.Converters;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+using GeoJSON.Text.Converters;
+using GeoJSON.Text.Geometry;
+
 using NUnit.Framework;
 
-namespace GeoJSON.Net.Tests.Geometry
+namespace GeoJSON.Text.Tests.Geometry
 {
     [TestFixture]
     public class PolygonTests : TestBase
