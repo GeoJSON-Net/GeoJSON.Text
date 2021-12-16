@@ -25,6 +25,8 @@ namespace GeoJSON.Text.Tests
 
         protected string GetExpectedJson([CallerMemberName] string name = null)
         {
+            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+
             var assembly = Assembly.GetExecutingAssembly();
             var type = GetType().FullName;
             using (Stream stream = assembly.GetManifestResourceStream($"{type}_{name}.json"))

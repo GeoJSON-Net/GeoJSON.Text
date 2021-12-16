@@ -58,11 +58,20 @@
     <EmbeddedResource Include="Geometry\PolygonTests_Can_Serialize.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GeoJSON.Text\GeoJSON.Text.csproj" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="System.Text.Json" Version="6.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeoJSON.Text\GeoJSON.Text.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Feature\*.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Geometry\*.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
