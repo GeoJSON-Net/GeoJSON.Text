@@ -1,10 +1,10 @@
 using System;
-using GeoJSON.Net.CoordinateReferenceSystem;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+using System.Text.Json;
+using GeoJSON.Text.CoordinateReferenceSystem;
+using GeoJSON.Text.Geometry;
 using NUnit.Framework;
 
-namespace GeoJSON.Net.Tests.CoordinateReferenceSystem
+namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
 {
     [TestFixture]
     public class LinkedCRSTests : TestBase
@@ -41,7 +41,7 @@ namespace GeoJSON.Net.Tests.CoordinateReferenceSystem
         public void Can_Serialize()
         {
             var collection = new Point(new Position(1, 2, 3)) { CRS = new LinkedCRS(Href) };
-            var actualJson = JsonConvert.SerializeObject(collection);
+            var actualJson = JsonSerializer.Serialize(collection);
 
             JsonAssert.Contains("{\"properties\":{\"href\":\"http://localhost\"},\"type\":\"link\"}", actualJson);
         }
@@ -50,7 +50,7 @@ namespace GeoJSON.Net.Tests.CoordinateReferenceSystem
         public void Can_Deserialize_CRS_issue_101()
         {
             const string pointJson = "{\"type\":\"Point\",\"coordinates\":[2.0,1.0,3.0],\"crs\":{\"properties\":{\"href\":\"http://localhost\"},\"type\":\"link\"}}";
-            var pointWithCRS = JsonConvert.DeserializeObject<Point>(pointJson);
+            var pointWithCRS = JsonSerializer.Deserialize<Point>(pointJson);
             var linkCRS = pointWithCRS.CRS as LinkedCRS;
 
             Assert.IsNotNull(linkCRS);
@@ -73,14 +73,11 @@ namespace GeoJSON.Net.Tests.CoordinateReferenceSystem
         [Test]
         public void Ctor_Throws_ArgumentExpection_When_Href_Is_Not_Dereferencable_Uri()
         {
-#if NETCOREAPP1_1
-            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
-#else
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
-#endif
 
+            // Assert that a argument exception is thrown, and that it is for href.
             var argumentExpection = Assert.Throws<ArgumentException>(() => { var crs = new LinkedCRS("http://not-a-valid-<>-url"); });
-            Assert.AreEqual($"must be a dereferenceable URI{Environment.NewLine}Parameter name: href", argumentExpection.Message);
+            Assert.True(argumentExpection.Message.ToLower().Contains("href"));
         }
 
         [Test]

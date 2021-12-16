@@ -3,18 +3,23 @@
 using System;
 using System.Collections.Generic;
 
-namespace GeoJSON.Net.CoordinateReferenceSystem
+namespace GeoJSON.Text.CoordinateReferenceSystem
 {
     /// <summary>
     /// Defines the Linked CRS type.
     /// </summary>
     /// <remarks>
     /// This was originally defined in the spec http://geojson.org/geojson-spec.html#named-crs
-    /// The current RFC removes the CRS type, but allows to be left in for backwards compatibility. 
+    /// The current RFC removes the CRS type, but allows to be left in for backwards compatibility.
     /// See https://tools.ietf.org/html/rfc7946#section-4
     /// </remarks>
     public class LinkedCRS : CRSBase, ICRSObject
     {
+        public LinkedCRS()
+        {
+
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LinkedCRS" /> class.
         /// </summary>

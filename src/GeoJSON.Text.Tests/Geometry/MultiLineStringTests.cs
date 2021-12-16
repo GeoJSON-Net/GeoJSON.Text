@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+﻿using GeoJSON.Text.Geometry;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Text.Json;
 
-namespace GeoJSON.Net.Tests.Geometry
+namespace GeoJSON.Text.Tests.Geometry
 {
     [TestFixture]
     public class MultiLineStringTests : TestBase
@@ -29,7 +29,7 @@ namespace GeoJSON.Net.Tests.Geometry
                 })
             });
 
-            var multiLineString = JsonConvert.DeserializeObject<MultiLineString>(json);
+            var multiLineString = JsonSerializer.Deserialize<MultiLineString>(json);
 
             Assert.IsNotNull(multiLineString);
             Assert.AreEqual(expectedMultiLineString, multiLineString);
@@ -55,7 +55,7 @@ namespace GeoJSON.Net.Tests.Geometry
             });
 
             var expectedJson = GetExpectedJson();
-            var actualJson = JsonConvert.SerializeObject(expectedMultiLineString);
+            var actualJson = JsonSerializer.Serialize(expectedMultiLineString);
 
             JsonAssert.AreEqual(expectedJson, actualJson);
         }

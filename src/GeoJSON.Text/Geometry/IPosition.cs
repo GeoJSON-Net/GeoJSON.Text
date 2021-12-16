@@ -1,5 +1,5 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
-namespace GeoJSON.Net.Geometry
+namespace GeoJSON.Text.Geometry
 {
     /// <summary>
     /// Defines the Geographic Position type.
@@ -13,7 +13,7 @@ namespace GeoJSON.Net.Geometry
         /// Gets the altitude.
         /// </summary>
         double? Altitude { get; }
-    
+
         /// <summary>
         /// Gets the latitude.
         /// </summary>

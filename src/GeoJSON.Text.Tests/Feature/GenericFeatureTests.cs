@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GeoJSON.Net.Feature;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using GeoJSON.Text.Feature;
+using GeoJSON.Text.Geometry;
 using NUnit.Framework;
 
-namespace GeoJSON.Net.Tests.Feature
+namespace GeoJSON.Text.Tests.Feature
 {
     [TestFixture]
     internal class GenericFeatureTests : TestBase
@@ -15,14 +16,15 @@ namespace GeoJSON.Net.Tests.Feature
         {
             var json = GetExpectedJson();
 
-            var feature = JsonConvert.DeserializeObject<Feature<Point>>(json);
+            var feature = JsonSerializer.Deserialize<Feature<Point>>(json);
 
             Assert.IsNotNull(feature);
             Assert.IsNotNull(feature.Properties);
             Assert.IsTrue(feature.Properties.Any());
 
             Assert.IsTrue(feature.Properties.ContainsKey("name"));
-            Assert.AreEqual("Dinagat Islands", feature.Properties["name"]);
+            string name = feature.Properties["name"].ToString();
+            Assert.AreEqual("Dinagat Islands", name);
 
             Assert.AreEqual("test-id", feature.Id);
 
@@ -31,20 +33,19 @@ namespace GeoJSON.Net.Tests.Feature
             Assert.AreEqual(10.1, feature.Geometry.Coordinates.Latitude);
             Assert.AreEqual(456, feature.Geometry.Coordinates.Altitude);
         }
-
         [Test]
         public void Can_Deserialize_LineString_Feature()
         {
             var json = GetExpectedJson();
 
-            var feature = JsonConvert.DeserializeObject<Feature<LineString>>(json);
-
+            var feature = JsonSerializer.Deserialize<Feature<LineString>>(json);
+            
             Assert.IsNotNull(feature);
             Assert.IsNotNull(feature.Properties);
             Assert.IsTrue(feature.Properties.Any());
 
             Assert.IsTrue(feature.Properties.ContainsKey("name"));
-            Assert.AreEqual("Dinagat Islands", feature.Properties["name"]);
+            Assert.AreEqual("Dinagat Islands", feature.Properties["name"].ToString());
 
             Assert.AreEqual("test-id", feature.Id);
 
@@ -84,9 +85,9 @@ namespace GeoJSON.Net.Tests.Feature
 
         private class TypedFeatureProps
         {
-            [JsonProperty("name")]
+            [JsonPropertyName("name")]
             public string Name { get; set; }
-            [JsonProperty("value")]
+            [JsonPropertyName("value")]
             public double Value { get; set; }
         }
 
@@ -94,7 +95,7 @@ namespace GeoJSON.Net.Tests.Feature
         public void Can_Deserialize_Typed_Point_Feature()
         {
             var json = GetExpectedJson();
-            var feature = JsonConvert.DeserializeObject<Feature<Point, TypedFeatureProps>>(json);
+            var feature = JsonSerializer.Deserialize<Feature<Point, TypedFeatureProps>>(json);
 
             Assert.IsNotNull(feature);
 
@@ -120,7 +121,7 @@ namespace GeoJSON.Net.Tests.Feature
             var feature = new Feature<Point, TypedFeatureProps>(geometry, props, "no id there");
 
             var expectedJson = GetExpectedJson();
-            var actualJson = JsonConvert.SerializeObject(feature);
+            var actualJson = JsonSerializer.Serialize(feature);
 
             JsonAssert.AreEqual(expectedJson, actualJson);
         }

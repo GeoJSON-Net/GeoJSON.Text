@@ -4,21 +4,18 @@ using GeoJSON.Text.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace GeoJSON.Text.Converters
 {
     /// <summary>
-    /// Converter to read and write the <see cref="IEnumerable{MultiPolygon}" /> type.
+    /// Converts <see cref="IGeometryObject"/> types to and from JSON.
     /// </summary>
-    public class PolygonEnumerableConverter : JsonConverter<IReadOnlyCollection<Polygon>>
+    public class GeometryEnumerableConverter : JsonConverter<ReadOnlyCollection<IGeometryObject>>
     {
+        private static readonly GeometryConverter GeometryConverter = new GeometryConverter();
 
-        private static readonly LineStringEnumerableConverter PolygonConverter = new LineStringEnumerableConverter();
         /// <summary>
         ///     Determines whether this instance can convert the specified object type.
         /// </summary>
@@ -28,7 +25,7 @@ namespace GeoJSON.Text.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            return true || typeof(IReadOnlyCollection<Polygon>).IsAssignableFromType(objectType);
+            return typeof(ReadOnlyCollection<IGeometryObject>).IsAssignableFromType(objectType);
         }
 
         /// <summary>
@@ -41,36 +38,33 @@ namespace GeoJSON.Text.Converters
         /// <returns>
         ///     The object value.
         /// </returns>
-        public override IReadOnlyCollection<Polygon> Read(
+        public override ReadOnlyCollection<IGeometryObject> Read(
             ref Utf8JsonReader reader,
             Type type,
             JsonSerializerOptions options)
         {
-
             switch (reader.TokenType)
             {
                 case JsonTokenType.Null:
                     return null;
                 case JsonTokenType.StartArray:
                     break;
-                default:
-                    throw new InvalidOperationException("Incorrect json type");
             }
 
             var startDepth = reader.CurrentDepth;
-            var result = new List<Polygon>();
+            var result = new List<IGeometryObject>();
             while (reader.Read())
             {
                 if (JsonTokenType.EndArray == reader.TokenType && reader.CurrentDepth == startDepth)
                 {
-                    return new ReadOnlyCollection<Polygon>(result);
+                    return new ReadOnlyCollection<IGeometryObject>(result);
                 }
-                if (reader.TokenType == JsonTokenType.StartArray)
+                if (reader.TokenType == JsonTokenType.StartObject)
                 {
-                    result.Add(new Polygon(PolygonConverter.Read(
+                    result.Add((IGeometryObject)GeometryConverter.Read(
                         ref reader,
-                        typeof(IEnumerable<LineString>),
-                        options)));
+                        typeof(IEnumerable<IPosition>),
+                        options));
                 }
             }
 
@@ -78,20 +72,20 @@ namespace GeoJSON.Text.Converters
         }
 
         /// <summary>
-        ///     Writes the JSON representation of the object.
+        /// Writes the JSON representation of the object.
         /// </summary>
         /// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter" /> to write to.</param>
         /// <param name="value">The value.</param>
         /// <param name="serializer">The calling serializer.</param>
         public override void Write(
             Utf8JsonWriter writer,
-            IReadOnlyCollection<Polygon> value,
+            ReadOnlyCollection<IGeometryObject> value,
             JsonSerializerOptions options)
         {
             writer.WriteStartArray();
-            foreach (var polygon in value)
+            foreach(var item in value)
             {
-                PolygonConverter.Write(writer, polygon.Coordinates, options);
+                GeometryConverter.Write(writer, item, options);
             }
             writer.WriteEndArray();
         }

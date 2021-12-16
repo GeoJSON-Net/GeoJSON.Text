@@ -1,4 +1,4 @@
-﻿namespace GeoJSON.Net.Tests.Feature
+﻿namespace GeoJSON.Text.Tests.Feature
 {
     using System;
     using System.Collections;

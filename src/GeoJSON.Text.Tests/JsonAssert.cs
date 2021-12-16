@@ -2,7 +2,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace GeoJSON.Net.Tests
+namespace GeoJSON.Text.Tests
 {
     /// <summary>
     ///     Assertions for json strings

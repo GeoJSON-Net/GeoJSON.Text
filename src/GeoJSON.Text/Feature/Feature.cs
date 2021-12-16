@@ -1,16 +1,15 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
 using System.Collections.Generic;
-#if (!NET35 || !NET40)
 using System.Reflection;
 using System.Linq;
-#endif
-using GeoJSON.Net.Converters;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+using GeoJSON.Text.Converters;
+using GeoJSON.Text.Geometry;
 using System;
+using System.Text.Json.Serialization;
+using GeoJSON.Text.CoordinateReferenceSystem;
 
-namespace GeoJSON.Net.Feature
+namespace GeoJSON.Text.Feature
 {
     /// <summary>
     /// A GeoJSON Feature Object; generic version for strongly typed <see cref="Geometry"/>
@@ -22,7 +21,18 @@ namespace GeoJSON.Net.Feature
     public class Feature<TGeometry, TProps> : GeoJSONObject, IEquatable<Feature<TGeometry, TProps>>
         where TGeometry : IGeometryObject
     {
-        [JsonConstructor]
+        private string _id;
+        private bool _idHasValue = false;
+        private TGeometry _geometry;
+        private bool _geometryHasValue = false;
+        private TProps _properties;
+        private bool _propertiesHasValue = false;
+
+        public Feature()
+        {
+
+        }
+
         public Feature(TGeometry geometry, TProps properties, string id = null)
         {
             Geometry = geometry;
@@ -30,25 +40,102 @@ namespace GeoJSON.Net.Feature
             Id = id;
         }
 
+        public Feature(IGeometryObject geometry, TProps properties, string id = null)
+        {
+            Geometry = (TGeometry)geometry;
+            Properties = properties;
+            Id = id;
+        }
+
+        [JsonPropertyName("type")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public override GeoJSONObjectType Type => GeoJSONObjectType.Feature;
-        
-        [JsonProperty(PropertyName = "id", NullValueHandling = NullValueHandling.Ignore)]
-        public string Id { get; }
-        
-        [JsonProperty(PropertyName = "geometry", Required = Required.AllowNull)]
+
+        [JsonPropertyName( "id")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string Id { 
+            get
+            {
+                return _id;
+            }
+#if NET5_0_OR_GREATER
+            init
+            {
+                if (_idHasValue) throw new InvalidOperationException("Id property already set, is read only");
+
+                _id = value;
+                _idHasValue = true;
+            }
+#else
+            set
+            {
+                if (_idHasValue) throw new InvalidOperationException("Id property already set, is read only");
+
+                _id = value;
+                _idHasValue = true;
+            }
+#endif
+        }
+
+        [JsonPropertyName("geometry")]
         [JsonConverter(typeof(GeometryConverter))]
-        public TGeometry Geometry { get; }
-        
-        [JsonProperty(PropertyName = "properties", Required = Required.AllowNull)]
-        public TProps Properties { get; }
-        
+        public TGeometry Geometry { 
+            get
+            {
+                return _geometry;
+            }
+#if NET5_0_OR_GREATER
+            init
+            {
+                if (_geometryHasValue) throw new InvalidOperationException("Geometry property already set, is read only");
+
+                _geometry = value;
+                _geometryHasValue = true;
+            }
+#else
+            set
+            {
+                if (_geometryHasValue) throw new InvalidOperationException("Geometry property already set, is read only");
+
+                _geometry = value;
+                _geometryHasValue = true;
+            }
+#endif
+        }
+
+        [JsonPropertyName("properties")]
+        public TProps Properties { 
+            get
+            {
+                return _properties;
+            }
+#if NET5_0_OR_GREATER
+            init
+            {
+                if (_propertiesHasValue) throw new InvalidOperationException("Geometry property already set, is read only");
+
+                _properties = value;
+                _propertiesHasValue = true;
+            }
+#else
+            set
+            {
+                if (_propertiesHasValue) throw new InvalidOperationException("Geometry property already set, is read only");
+
+                _properties = value;
+                _propertiesHasValue = true;
+            }
+#endif
+        }
+
         /// <summary>
         /// Equality comparer.
         /// </summary>
         /// <remarks>
         /// In contrast to <see cref="Feature.Equals(Feature)"/>, this implementation returns true only
         /// if <see cref="Id"/> and <see cref="Properties"/> are also equal. See
-        /// <a href="https://github.com/GeoJSON-Net/GeoJSON.Net/issues/80">#80</a> for discussion. The rationale
+        /// <a href="https://github.com/GeoJSON-Net/GeoJSON.Text/issues/80">#80</a> for discussion. The rationale
         /// here is that a user explicitly specifying the property type most probably cares about the properties
         /// equality.
         /// </remarks>
@@ -94,8 +181,8 @@ namespace GeoJSON.Net.Feature
             return !object.Equals(left, right);
         }
     }
-    
-    
+
+
     /// <summary>
     /// A GeoJSON Feature Object.
     /// </summary>
@@ -104,13 +191,17 @@ namespace GeoJSON.Net.Feature
     /// </remarks>
     public class Feature : Feature<IGeometryObject>
     {
-        [JsonConstructor]
-        public Feature(IGeometryObject geometry, IDictionary<string, object> properties = null, string id = null) 
+        public Feature()
+        {
+
+        }
+
+        public Feature(IGeometryObject geometry, IDictionary<string, object> properties = null, string id = null)
             : base(geometry, properties, id)
         {
         }
 
-        public Feature(IGeometryObject geometry, object properties, string id = null) 
+        public Feature(IGeometryObject geometry, object properties, string id = null)
             : base(geometry, properties, id)
         {
         }
@@ -124,6 +215,10 @@ namespace GeoJSON.Net.Feature
     /// <typeparam name="TGeometry"></typeparam>
     public class Feature<TGeometry> : Feature<TGeometry, IDictionary<string, object>>, IEquatable<Feature<TGeometry>> where TGeometry : IGeometryObject
     {
+        public Feature()
+        {
+
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Feature" /> class.
@@ -131,9 +226,19 @@ namespace GeoJSON.Net.Feature
         /// <param name="geometry">The Geometry Object.</param>
         /// <param name="properties">The properties.</param>
         /// <param name="id">The (optional) identifier.</param>
-        [JsonConstructor]
         public Feature(TGeometry geometry, IDictionary<string, object> properties = null, string id = null)
         : base(geometry, properties ?? new Dictionary<string, object>(), id)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Feature" /> class.
+        /// </summary>
+        /// <param name="geometry">The Geometry Object.</param>
+        /// <param name="properties">The properties.</param>
+        /// <param name="id">The (optional) identifier.</param>
+        public Feature(IGeometryObject geometry, IDictionary<string, object> properties = null, string id = null)
+        : base((TGeometry)geometry, properties ?? new Dictionary<string, object>(), id)
         {
         }
 
@@ -151,23 +256,17 @@ namespace GeoJSON.Net.Feature
         {
         }
 
+
         private static Dictionary<string, object> GetDictionaryOfPublicProperties(object properties)
         {
             if (properties == null)
             {
                 return new Dictionary<string, object>();
             }
-#if(NET35 || NET40)
-            return properties.GetType().GetProperties()
-                .Where(propertyInfo => propertyInfo.GetGetMethod().IsPublic)
-                .ToDictionary(propertyInfo => propertyInfo.Name,
-                    propertyInfo => propertyInfo.GetValue(properties, null));
-#else
             return properties.GetType().GetTypeInfo().DeclaredProperties
                 .Where(propertyInfo => propertyInfo.GetMethod.IsPublic)
                 .ToDictionary(propertyInfo => propertyInfo.Name,
                     propertyInfo => propertyInfo.GetValue(properties, null));
-#endif
         }
 
         public bool Equals(Feature<TGeometry> other)

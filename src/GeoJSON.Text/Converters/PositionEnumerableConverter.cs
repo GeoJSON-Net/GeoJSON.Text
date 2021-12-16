@@ -2,20 +2,23 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using GeoJSON.Text.Geometry;
 
-namespace GeoJSON.Net.Converters
+namespace GeoJSON.Text.Converters
 {
     /// <summary>
-    /// Converter to read and write the <see cref="IEnumerable{IPosition}" /> type.
+    /// Converter to read and write the <see cref="IReadOnlyCollection{IPosition}" /> type.
     /// </summary>
-    public class PositionEnumerableConverter : JsonConverter
+    public class PositionEnumerableConverter : JsonConverter<IReadOnlyCollection<IPosition>>
     {
         private static readonly PositionConverter PositionConverter = new PositionConverter();
-        
+
         /// <summary>
         ///     Determines whether this instance can convert the specified object type.
         /// </summary>
@@ -25,7 +28,7 @@ namespace GeoJSON.Net.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            return typeof(IEnumerable<IPosition>).IsAssignableFromType(objectType);
+            return typeof(IReadOnlyCollection<IPosition>).IsAssignableFromType(objectType);
         }
 
         /// <summary>
@@ -38,14 +41,39 @@ namespace GeoJSON.Net.Converters
         /// <returns>
         ///     The object value.
         /// </returns>
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override IReadOnlyCollection<IPosition> Read(
+            ref Utf8JsonReader reader,
+            Type type,
+            JsonSerializerOptions options)
         {
-            var coordinates = existingValue as JArray ?? serializer.Deserialize<JArray>(reader);
-            return coordinates.Select(pos => PositionConverter.ReadJson(pos.CreateReader(),
-                typeof(IPosition),
-                pos,
-                serializer
-            )).Cast<IPosition>();
+            switch (reader.TokenType)
+            {
+                case JsonTokenType.Null:
+                    return null;
+                case JsonTokenType.StartArray:
+                    break;
+                default:
+                    throw new InvalidOperationException("Incorrect json type");
+            }
+
+            var startDepth = reader.CurrentDepth;
+            var result = new List<IPosition>();
+            while (reader.Read())
+            {
+                if (JsonTokenType.EndArray == reader.TokenType && reader.CurrentDepth == startDepth)
+                {
+                    return new ReadOnlyCollection<IPosition>(result);
+                }
+                if (reader.TokenType == JsonTokenType.StartArray)
+                {
+                    result.Add(PositionConverter.Read(
+                            ref reader,
+                            typeof(IPosition),
+                            options));
+                }
+            }
+
+            throw new JsonException($"expected null, object or array token but received {reader.TokenType}");
         }
 
         /// <summary>
@@ -54,21 +82,17 @@ namespace GeoJSON.Net.Converters
         /// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter" /> to write to.</param>
         /// <param name="value">The value.</param>
         /// <param name="serializer">The calling serializer.</param>
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void Write(
+            Utf8JsonWriter writer,
+            IReadOnlyCollection<IPosition> coordinateElements,
+            JsonSerializerOptions options)
         {
-            if (value is IEnumerable<IPosition> coordinateElements)
+            writer.WriteStartArray();
+            foreach (var position in coordinateElements)
             {
-                writer.WriteStartArray();
-                foreach (var position in coordinateElements)
-                {
-                    PositionConverter.WriteJson(writer, position, serializer);
-                }
-                writer.WriteEndArray();
+                PositionConverter.Write(writer, position, options);
             }
-            else
-            {
-                throw new ArgumentException($"{nameof(PositionEnumerableConverter)}: unsupported value type");
-            }
+            writer.WriteEndArray();
         }
     }
 }

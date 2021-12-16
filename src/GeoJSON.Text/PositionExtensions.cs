@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using GeoJSON.Net.Geometry;
+using GeoJSON.Text.Geometry;
 
-namespace GeoJSON.Net
+namespace GeoJSON.Text
 {
     internal static class PositionExtensions
     {

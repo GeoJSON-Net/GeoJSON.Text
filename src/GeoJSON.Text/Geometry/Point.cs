@@ -1,11 +1,11 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
 using System;
-using GeoJSON.Net.Converters;
-using Newtonsoft.Json;
+using GeoJSON.Text.Converters;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace GeoJSON.Net.Geometry
+namespace GeoJSON.Text.Geometry
 {
     /// <summary>
     /// Defines the Point type.
@@ -16,6 +16,9 @@ namespace GeoJSON.Net.Geometry
     /// </remarks>
     public class Point : GeoJSONObject, IGeometryObject, IEqualityComparer<Point>, IEquatable<Point>
     {
+        public Point()
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Point" /> class.
@@ -26,14 +29,18 @@ namespace GeoJSON.Net.Geometry
             Coordinates = coordinates ?? throw new ArgumentNullException(nameof(coordinates));
         }
 
+        [JsonPropertyName("type")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public override GeoJSONObjectType Type => GeoJSONObjectType.Point;
 
         /// <summary>
         /// The <see cref="IPosition" /> underlying this point.
         /// </summary>
-        [JsonProperty("coordinates", Required = Required.Always)]
+        [JsonPropertyName("coordinates")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [JsonConverter(typeof(PositionConverter))]
-        public IPosition Coordinates { get; }
+        public IPosition Coordinates { get; set; }
 
         #region IEqualityComparer, IEquatable
 
@@ -88,7 +95,7 @@ namespace GeoJSON.Net.Geometry
         {
             return !(left == right);
         }
-        
+
         /// <summary>
         /// Returns the hash code for this instance
         /// </summary>

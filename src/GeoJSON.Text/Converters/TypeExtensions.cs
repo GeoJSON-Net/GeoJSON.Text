@@ -1,9 +1,8 @@
-﻿#if (!NET35 || !NET40)
-using System;
+﻿using System;
 using System.Reflection;
-#endif
 
-namespace GeoJSON.Net.Converters
+
+namespace GeoJSON.Text.Converters
 {
     public static class TypeExtensions
     {
@@ -12,11 +11,7 @@ namespace GeoJSON.Net.Converters
         /// </summary>
         public static bool IsAssignableFromType(this Type self, Type other)
         {
-#if (NET35 || NET40)
-            return self.IsAssignableFrom(other);
-#else
             return self.GetTypeInfo().IsAssignableFrom(other.GetTypeInfo());
-#endif
         }
 
     }

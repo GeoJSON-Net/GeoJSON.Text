@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using GeoJSON.Net.Converters;
-using GeoJSON.Net.Geometry;
-using Newtonsoft.Json;
+using System.Text.Json;
+using GeoJSON.Text.Converters;
+using GeoJSON.Text.Geometry;
 using NUnit.Framework;
 
-namespace GeoJSON.Net.Tests.Geometry
+namespace GeoJSON.Text.Tests.Geometry
 {
     [TestFixture]
     public class PolygonTests : TestBase
@@ -24,7 +24,7 @@ namespace GeoJSON.Net.Tests.Geometry
             });
 
             var expectedJson = GetExpectedJson();
-            var actualJson = JsonConvert.SerializeObject(polygon);
+            var actualJson = JsonSerializer.Serialize(polygon);
 
             JsonAssert.AreEqual(expectedJson, actualJson);
         }
@@ -43,13 +43,8 @@ namespace GeoJSON.Net.Tests.Geometry
                 })
             });
 
-            var serializerSettings = new JsonSerializerSettings()
-            {
-                Converters = new List<JsonConverter>() { new GeometryConverter() }
-            };
-
-            var json = JsonConvert.SerializeObject(polygon, serializerSettings);
-            var result = JsonConvert.DeserializeObject<IGeometryObject>(json, serializerSettings);
+            var json = JsonSerializer.Serialize(polygon);
+            var result = JsonSerializer.Deserialize<IGeometryObject>(json);
 
             Assert.AreEqual(result, polygon);
         }
@@ -264,7 +259,7 @@ namespace GeoJSON.Net.Tests.Geometry
                 })
             });
 
-            var actualPolygon = JsonConvert.DeserializeObject<Polygon>(json);
+            var actualPolygon = JsonSerializer.Deserialize<Polygon>(json);
             Assert.AreEqual(expectedPolygon, actualPolygon);
         }
 
@@ -284,7 +279,7 @@ namespace GeoJSON.Net.Tests.Geometry
                 })
             });
 
-            var actualPolygon = JsonConvert.DeserializeObject<Polygon>(json);
+            var actualPolygon = JsonSerializer.Deserialize<Polygon>(json);
 
             Assert.AreEqual(expectedPolygon, actualPolygon);
         }

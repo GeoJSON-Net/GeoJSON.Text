@@ -1,6 +1,9 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
-namespace GeoJSON.Net
+using GeoJSON.Text.Converters;
+using System.Text.Json.Serialization;
+
+namespace GeoJSON.Text
 {
     /// <summary>
     /// Base Interface for GeoJSONObject types.
@@ -16,6 +19,7 @@ namespace GeoJSON.Net
         /// <value>
         /// The type of the object.
         /// </value>
+        [JsonPropertyName("type")]
         GeoJSONObjectType Type { get; }
 
         /// <summary>
@@ -27,6 +31,7 @@ namespace GeoJSON.Net
         /// <value>
         /// The Coordinate Reference System Objects.
         /// </value>
+        [JsonPropertyName("crs")]
         CoordinateReferenceSystem.ICRSObject CRS { get; }
 
         /// <summary>
@@ -42,6 +47,8 @@ namespace GeoJSON.Net
         /// In addition, the coordinate reference system for the bbox is assumed to match the coordinate reference
         /// system of the GeoJSON object of which it is a member.
         /// </value>
+        [JsonPropertyName("bbox")]
+        [JsonConverter(typeof(BoundingBoxConverter))]
         double[] BoundingBoxes { get; set; }
     }
 }
