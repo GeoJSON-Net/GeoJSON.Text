@@ -1,27 +1,73 @@
-name: Build and Tests
+name: 'Build and Test' 
 
 on:
   push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  build:
+  Build:
 
     runs-on: ubuntu-latest
     env: 
       VSTEST_CONNECTION_TIMEOUT: 900
 
+    strategy:
+      matrix:
+        dotnet-version: [ 'netcoreapp3.1', 'net5', 'net6' ] 
+         
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '6.0.x'
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Install dependencies
+        run: dotnet restore ./src/
+      - name: Build solution
+        run: dotnet build ./src/ --no-restore --framework ${{matrix.dotnet-version}}
+  
+  Test:
+    needs: build
+    runs-on: ubuntu-latest
+    env: 
+      VSTEST_CONNECTION_TIMEOUT: 900
+
+    strategy:
+      matrix:
+        dotnet-version: [ 'netcoreapp3.1', 'net5', 'net6' ] 
+         
+    if: success()
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+      - name: Install dependencies
+        run: dotnet restore ./src/
+      - name: Test with dotnet
+        run: dotnet test ./src/ --framework ${{matrix.dotnet-version}} --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: dotnet-results-${{ matrix.dotnet-version }}
+          path: TestResults-${{ matrix.dotnet-version }}
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
