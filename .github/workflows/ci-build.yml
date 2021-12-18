@@ -8,6 +8,7 @@ on:
 jobs:
   Build:
 
+    name: 'Build and Test'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -34,6 +35,7 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ../coverage/
+          directory: src/coverage
           flags: unittests
+          if: ${{ github.event_name == 'push' }}
   
