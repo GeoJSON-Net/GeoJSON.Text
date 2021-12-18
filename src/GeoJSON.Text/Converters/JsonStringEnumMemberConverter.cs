@@ -8,15 +8,15 @@ using System.Text.Json.Serialization;
 
 namespace GeoJSON.Text.Converters
 {
-    public class JsonStringEnumEnumMemberConverter : JsonConverterFactory
+    public class JsonStringEnumMemberConverter : JsonConverterFactory
     {
         private readonly JsonNamingPolicy namingPolicy;
         private readonly bool allowIntegerValues;
         private readonly JsonStringEnumConverter baseConverter;
 
-        public JsonStringEnumEnumMemberConverter() : this(null, true) { }
+        public JsonStringEnumMemberConverter() : this(null, true) { }
 
-        public JsonStringEnumEnumMemberConverter(JsonNamingPolicy namingPolicy = null, bool allowIntegerValues = true)
+        public JsonStringEnumMemberConverter(JsonNamingPolicy namingPolicy = null, bool allowIntegerValues = true)
         {
             this.namingPolicy = namingPolicy;
             this.allowIntegerValues = allowIntegerValues;
@@ -43,7 +43,7 @@ namespace GeoJSON.Text.Converters
         }
     }
 
-    public class JsonNamingPolicyDecorator : JsonNamingPolicy
+    internal class JsonNamingPolicyDecorator : JsonNamingPolicy
     {
         readonly JsonNamingPolicy underlyingNamingPolicy;
 

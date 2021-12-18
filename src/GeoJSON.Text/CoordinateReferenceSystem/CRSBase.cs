@@ -26,7 +26,7 @@ namespace GeoJSON.Text.CoordinateReferenceSystem
         /// </summary>
         [JsonPropertyName("type")]
             //, Required = Required.Always)]
-        [JsonConverter(typeof(JsonStringEnumEnumMemberConverter))]
+        [JsonConverter(typeof(JsonStringEnumMemberConverter))]
         public CRSType Type { get; internal set; }
 
         #region IEqualityComparer, IEquatable
