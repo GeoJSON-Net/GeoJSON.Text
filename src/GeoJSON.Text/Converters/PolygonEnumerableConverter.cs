@@ -1,20 +1,23 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
+using GeoJSON.Text.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using GeoJSON.Text.Geometry;
-
-using Newtonsoft.Json.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace GeoJSON.Text.Converters
 {
     /// <summary>
     /// Converter to read and write the <see cref="IEnumerable{MultiPolygon}" /> type.
     /// </summary>
-    public class PolygonEnumerableConverter : JsonConverter
+    public class PolygonEnumerableConverter : JsonConverter<IReadOnlyCollection<Polygon>>
     {
-        
+
         private static readonly LineStringEnumerableConverter PolygonConverter = new LineStringEnumerableConverter();
         /// <summary>
         ///     Determines whether this instance can convert the specified object type.
@@ -25,7 +28,7 @@ namespace GeoJSON.Text.Converters
         /// </returns>
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(IEnumerable<Polygon>);
+            return true || typeof(IReadOnlyCollection<Polygon>).IsAssignableFromType(objectType);
         }
 
         /// <summary>
@@ -38,19 +41,40 @@ namespace GeoJSON.Text.Converters
         /// <returns>
         ///     The object value.
         /// </returns>
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override IReadOnlyCollection<Polygon> Read(
+            ref Utf8JsonReader reader,
+            Type type,
+            JsonSerializerOptions options)
         {
-            var o = serializer.Deserialize<JArray>(reader);
-            var polygons =
-                o.Select(
-                    polygonObject => (IEnumerable<LineString>) PolygonConverter.ReadJson(
-                            polygonObject.CreateReader(),
-                            typeof(IEnumerable<LineString>),
-                            polygonObject, serializer))
-                    .Select(lines => new Polygon(lines))
-                    .ToList();
 
-            return polygons;
+            switch (reader.TokenType)
+            {
+                case JsonTokenType.Null:
+                    return null;
+                case JsonTokenType.StartArray:
+                    break;
+                default:
+                    throw new InvalidOperationException("Incorrect json type");
+            }
+
+            var startDepth = reader.CurrentDepth;
+            var result = new List<Polygon>();
+            while (reader.Read())
+            {
+                if (JsonTokenType.EndArray == reader.TokenType && reader.CurrentDepth == startDepth)
+                {
+                    return new ReadOnlyCollection<Polygon>(result);
+                }
+                if (reader.TokenType == JsonTokenType.StartArray)
+                {
+                    result.Add(new Polygon(PolygonConverter.Read(
+                        ref reader,
+                        typeof(IEnumerable<LineString>),
+                        options)));
+                }
+            }
+
+            throw new JsonException($"expected null, object or array token but received {reader.TokenType}");
         }
 
         /// <summary>
@@ -59,21 +83,17 @@ namespace GeoJSON.Text.Converters
         /// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter" /> to write to.</param>
         /// <param name="value">The value.</param>
         /// <param name="serializer">The calling serializer.</param>
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void Write(
+            Utf8JsonWriter writer,
+            IReadOnlyCollection<Polygon> value,
+            JsonSerializerOptions options)
         {
-            if (value is IEnumerable<Polygon> polygons)
+            writer.WriteStartArray();
+            foreach (var polygon in value)
             {
-                writer.WriteStartArray();
-                foreach (var polygon in polygons)
-                {
-                    PolygonConverter.WriteJson(writer, polygon.Coordinates, serializer);
-                }
-                writer.WriteEndArray();
+                PolygonConverter.Write(writer, polygon.Coordinates, options);
             }
-            else
-            {
-                throw new ArgumentException($"{nameof(PointEnumerableConverter)}: unsupported value {value}");
-            }
+            writer.WriteEndArray();
         }
     }
 }

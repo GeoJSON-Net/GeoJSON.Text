@@ -1,27 +1,39 @@
-name: Build and Tests
+name: 'Build and Test' 
 
 on:
   push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  build:
+  Build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./src
+
     env: 
       VSTEST_CONNECTION_TIMEOUT: 900
-
+         
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '6.0.x'
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      - uses: actions/checkout@v2      
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: |
+            3.1.x
+            5.0.x
+            6.0.x
+      - name: Install dependencies
+        run: dotnet restore 
+      - name: Build solution
+        run: dotnet build -c Release --no-restore /p:Version=1.2.3.4
+      - name: Test
+        run: dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../coverage/
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ../coverage/
+          flags: unittests
+  

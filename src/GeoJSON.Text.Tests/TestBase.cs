@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -8,9 +9,6 @@ namespace GeoJSON.Text.Tests
     public abstract class TestBase
     {
         private static readonly Assembly ThisAssembly = typeof(TestBase)
-#if NETCOREAPP1_1
-        .GetTypeInfo()
-#endif
         .Assembly;
         private static readonly string AssemblyName = ThisAssembly.GetName().Name;
 
@@ -18,7 +16,7 @@ namespace GeoJSON.Text.Tests
         {
             get
             {
-                string codeBase = ThisAssembly.CodeBase;
+                string codeBase = ThisAssembly.Location;
                 UriBuilder uri = new UriBuilder(codeBase);
                 string path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
@@ -27,16 +25,18 @@ namespace GeoJSON.Text.Tests
 
         protected string GetExpectedJson([CallerMemberName] string name = null)
         {
-            var type = GetType().Name;
-            var projectFolder = GetType().Namespace.Substring(AssemblyName.Length + 1);
-            var path = Path.Combine(AssemblyDirectory, @"./", projectFolder, type + "_" + name + ".json");
+            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
-            if (!File.Exists(path))
+            var assembly = Assembly.GetExecutingAssembly();
+            var type = GetType().FullName;
+            using (Stream stream = assembly.GetManifestResourceStream($"{type}_{name}.json"))
+            using (StreamReader reader = new StreamReader(stream))
             {
-                throw new FileNotFoundException("file not found at " + path);
+                string result = reader.ReadToEnd();
+                return result;
             }
 
-            return File.ReadAllText(path);
+            throw new ArgumentException("File with name could not be found");
         }
     }
 }

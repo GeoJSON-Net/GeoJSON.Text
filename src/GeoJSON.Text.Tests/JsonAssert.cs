@@ -1,4 +1,5 @@
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
 namespace GeoJSON.Text.Tests

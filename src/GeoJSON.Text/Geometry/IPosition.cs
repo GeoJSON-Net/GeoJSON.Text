@@ -1,28 +1,29 @@
-﻿// Copyright © Matt Hunt 2021
-namespace GeoJSON.Text.Geometry;
-
-/// <summary>
-/// Defines the Geographic Position type.
-/// </summary>
-/// <remarks>
-/// See https://tools.ietf.org/html/rfc7946#section-3.1.1
-/// </remarks>
-public interface IPosition
+﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
+namespace GeoJSON.Text.Geometry
 {
     /// <summary>
-    /// Gets the altitude.
+    /// Defines the Geographic Position type.
     /// </summary>
-    double? Altitude { get; }
+    /// <remarks>
+    /// See https://tools.ietf.org/html/rfc7946#section-3.1.1
+    /// </remarks>
+    public interface IPosition
+    {
+        /// <summary>
+        /// Gets the altitude.
+        /// </summary>
+        double? Altitude { get; }
 
-    /// <summary>
-    /// Gets the latitude.
-    /// </summary>
-    /// <value>The latitude.</value>
-    double Latitude { get; }
+        /// <summary>
+        /// Gets the latitude.
+        /// </summary>
+        /// <value>The latitude.</value>
+         double Latitude { get; }
 
-    /// <summary>
-    /// Gets the longitude.
-    /// </summary>
-    /// <value>The longitude.</value>
-    double Longitude { get; }
+        /// <summary>
+        /// Gets the longitude.
+        /// </summary>
+        /// <value>The longitude.</value>
+        double Longitude { get; }
+    }
 }

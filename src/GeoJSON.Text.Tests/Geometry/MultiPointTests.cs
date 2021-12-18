@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using GeoJSON.Text.Geometry;
-
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Text.Json;
 
 namespace GeoJSON.Text.Tests.Geometry
 {
@@ -21,7 +21,7 @@ namespace GeoJSON.Text.Tests.Geometry
 
             var multiPoint = new MultiPoint(points);
 
-            var actualJson = JsonConvert.SerializeObject(multiPoint);
+            var actualJson = JsonSerializer.Serialize(multiPoint);
 
             JsonAssert.AreEqual(GetExpectedJson(), actualJson);
         }
@@ -38,7 +38,7 @@ namespace GeoJSON.Text.Tests.Geometry
             var expectedMultiPoint = new MultiPoint(points);
 
             var json = GetExpectedJson();
-            var actualMultiPoint = JsonConvert.DeserializeObject<MultiPoint>(json);
+            var actualMultiPoint = JsonSerializer.Deserialize<MultiPoint>(json);
 
             Assert.AreEqual(expectedMultiPoint, actualMultiPoint);
         }

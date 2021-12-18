@@ -10,11 +10,11 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("GeoJSON.Net.Tests")]
-[assembly: AssemblyDescription("Unit tests for the GeoJSON.Net library")]
+[assembly: AssemblyTitle("GeoJSON.Text.Tests")]
+[assembly: AssemblyDescription("Unit tests for the GeoJSON.Text library")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Joerg Battermann")]
-[assembly: AssemblyProduct("GeoJSON.Net.Tests")]
+[assembly: AssemblyProduct("GeoJSON.Text.Tests")]
 [assembly: AssemblyCopyright("Copyright © Joerg Battermann 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

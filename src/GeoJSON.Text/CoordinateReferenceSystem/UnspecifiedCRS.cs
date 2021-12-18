@@ -3,11 +3,16 @@
 namespace GeoJSON.Text.CoordinateReferenceSystem
 {
     /// <summary>
-    /// Represents an unspecified Coordinate Reference System 
+    /// Represents an unspecified Coordinate Reference System
     /// i.e. where a geojson object has a null crs
     /// </summary>
     public class UnspecifiedCRS : ICRSObject
     {
+        public UnspecifiedCRS()
+        {
+
+        }
+
         /// <summary>
         /// Gets the CRS type.
         /// </summary>
