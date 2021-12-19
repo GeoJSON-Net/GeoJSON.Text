@@ -8,8 +8,8 @@ namespace GeoJSON.Text.Test.Benchmark
     {
         public static void Main(string[] args)
         {
-            //var summary = BenchmarkRunner.Run<BenchmarkDeserialize>();
-            //var summary2 = BenchmarkRunner.Run<BenchmarkSerializeFeatureCollectionLinestring>();
+            // Serialize
+            var summary1 = BenchmarkRunner.Run<BenchmarkSerializeFeatureCollectionLinestring>();
             var summary2 = BenchmarkRunner.Run<BenchmarkSerializeFeatureLinestring>();
         }
     }

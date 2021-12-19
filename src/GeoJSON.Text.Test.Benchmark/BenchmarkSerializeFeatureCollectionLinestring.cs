@@ -1,67 +1,50 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Jobs;
-using System;
 
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace GeoJSON.Text.Test.Benchmark
 {
-    [SimpleJob(RuntimeMoniker.Net60)]
+    [SimpleJob(RuntimeMoniker.Net60, baseline:true)]
     [SimpleJob(RuntimeMoniker.Net50)]
     [SimpleJob(RuntimeMoniker.NetCoreApp31)]
+    [MemoryDiagnoser]
     [RPlotExporter]
     public class BenchmarkSerializeFeatureCollectionLinestring
     {
         // GeoJson.NET
-        private Net.Feature.FeatureCollection featureCollectionGeoJsonNET;
+        private Net.Feature.FeatureCollection featureCollectionGeoJsonNET = new Net.Feature.FeatureCollection();
 
         // GeoJson.Text
-        private Text.Feature.FeatureCollection featureCollectionGeoJsonTEXT;
+        private Text.Feature.FeatureCollection featureCollectionGeoJsonTEXT = new Text.Feature.FeatureCollection();
 
-        [Params(1000, 10000, 100000)]
+        [Params(100000, 1000000)]
         public int N;
 
-        public BenchmarkSerializeFeatureCollectionLinestring()
+        [GlobalSetup]
+        public void Setup()
         {
-            var featuresNET = new List<Net.Feature.Feature>();
-            var featuresTEXT = new List<Text.Feature.Feature>();
-
+            var coordinates1 = new double[] { 10, 50 };
+            var coordinates2 = new double[] { 10, 50 };
+            var coordinates3 = new double[] { 10, 50 };
+            var coordinates4 = new double[] { 10, 50 };
+            var line = new List<IEnumerable<double>> { coordinates1, coordinates2, coordinates3, coordinates4 };
             for (int i = 0; i< N; i++)
             {
-                var lineCoordinates = new List<List<double>>
-                {
-                    new List<double>
-                    {
-                        -0.26092529296875,
-                        51.470691106434884
-                    },
-                };
+                var linestringNET = new Net.Geometry.LineString(line);
+                GeoJSON.Net.Feature.Feature featureNET = new Net.Feature.Feature(linestringNET);
+                featureCollectionGeoJsonNET.Features.Add(featureNET);
 
-                var linestringNET = new Net.Geometry.LineString(lineCoordinates);
-                var linestringTEXT = new Text.Geometry.LineString(lineCoordinates);
-
-                var featureNET = new Net.Feature.Feature(linestringNET);
-                var featureTEXT = new Text.Feature.Feature(linestringTEXT);
-
-                featuresNET.Add(featureNET);
-                featuresTEXT.Add(featureTEXT);
+                var linestringTEXT = new Text.Geometry.LineString(line);
+                Text.Feature.Feature featureTEXT = new Text.Feature.Feature(linestringTEXT);
+                featureCollectionGeoJsonTEXT.Features.Add(featureTEXT);
             }
-
-            featureCollectionGeoJsonNET = new Net.Feature.FeatureCollection(featuresNET);
-            featureCollectionGeoJsonTEXT = new Text.Feature.FeatureCollection(featuresTEXT);
         }
 
         [Benchmark]
-        public void SerializeNewtonsoft()
-        {
-            Newtonsoft.Json.JsonConvert.SerializeObject(featureCollectionGeoJsonNET);
-        }
+        public string SerializeNewtonsoft() => Newtonsoft.Json.JsonConvert.SerializeObject(featureCollectionGeoJsonNET);
 
         [Benchmark]
-        public void SerializeSystemTextJson()
-        {
-            System.Text.Json.JsonSerializer.Serialize(featureCollectionGeoJsonTEXT);
-        }
+        public string SerializeSystemTextJson() => System.Text.Json.JsonSerializer.Serialize(featureCollectionGeoJsonTEXT);
     }
 }
