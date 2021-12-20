@@ -23,7 +23,7 @@ jobs:
             6.0.x
       # Run benchmark with `go test -bench` and stores the output to a file
       - name: Run benchmark
-        run:  dotnet run --project ./GeoJSON.Text.Test.Benchmark/GeoJSON.Text.Test.Benchmark.csproj --framework net6 --runtimes net60 -c Release -- --job short -f *SerializeAndDeserialize*
+        run:  dotnet run --project ./GeoJSON.Text.Test.Benchmark/GeoJSON.Text.Test.Benchmark.csproj --framework net6 --runtimes net60 -c Release -- --job medium -f *SerializeAndDeserialize*
       # Download previous benchmark result from cache (if exists)
       - name: Download previous benchmark data
         uses: actions/cache@v1
@@ -31,13 +31,13 @@ jobs:
           path: ./cache
           key: ${{ runner.os }}-benchmark
       # Run `github-action-benchmark` action
-      - name: Store benchmark result for serialize feature collection
+      - name: Store benchmark result
         uses: Happypig375/github-action-benchmark@v1
         with:
           # What benchmark tool the output.txt came from
           tool: 'benchmarkdotnet'
           # Where the output from the benchmark tool is stored
-          output-file-path: 'src/BenchmarkDotNet.Artifacts/results/GeoJSON.Text.Test.Benchmark.SerializeAndDeserialize-report-full-compressed.json'
+          output-file-path: 'src/BenchmarkDotNet.Artifacts/results/GeoJSON.Text.Test.Benchmark.SerializeAndDeserialize-report-full.json'
           # Where the previous data file is stored
           external-data-json-path: ./cache/benchmark-data.json
           # Will comment on pull request when an alert happens

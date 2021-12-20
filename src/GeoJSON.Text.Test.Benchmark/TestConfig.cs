@@ -20,18 +20,7 @@ namespace GeoJSON.Text.Test.Benchmark
     {
         public TestConfig()
         {
-            AddJob(Job.Default.WithRuntime(CoreRuntime.Core31)
-                .WithLaunchCount(1)     // benchmark process will be launched only once
-                .WithWarmupCount(3)     // 3 warmup iteration
-                .WithIterationCount(3),     // 3 target iteration,
-             Job.Default.WithRuntime(CoreRuntime.Core50)
-                .WithLaunchCount(1)     // benchmark process will be launched only once
-                .WithWarmupCount(3)     // 3 warmup iteration
-                .WithIterationCount(3),     // 3 target iteration,
-            Job.Default.WithRuntime(CoreRuntime.Core60)
-                .WithLaunchCount(1)     // benchmark process will be launched only once
-                .WithWarmupCount(3)     // 3 warmup iteration
-                .WithIterationCount(3));     // 3 target iteration);
+            WithOrderer(new FastestToSlowestOrderer());
 
             AddColumn(RankColumn.Roman);
             AddExporter(CsvMeasurementsExporter.Default,
@@ -40,6 +29,7 @@ namespace GeoJSON.Text.Test.Benchmark
                 JsonExporter.FullCompressed);
             AddDiagnoser(MemoryDiagnoser.Default);
         }
+
 
         private class FastestToSlowestOrderer : IOrderer
         {
