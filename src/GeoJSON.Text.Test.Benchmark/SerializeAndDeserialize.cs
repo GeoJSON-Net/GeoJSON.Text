@@ -46,7 +46,6 @@ namespace GeoJSON.Text.Test.Benchmark
             ?? throw new NullReferenceException("Deserialization should not return a null value.");
 
         [Benchmark]
-        public string SerializeFeatureCollection() => System.Text.Json.JsonSerializer.Serialize(fileContents)
-            ?? throw new NullReferenceException("Deserialization should not return a null value.");
+        public string SerializeFeatureCollection() => System.Text.Json.JsonSerializer.Serialize(fileContents);
     }
 }

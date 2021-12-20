@@ -1,10 +1,11 @@
 name: Run benchmark
 on:
-  push:
+  pull_request:
+    branches: [ main ]
 
 jobs:
   benchmark:
-    name: Performance regression check
+    name: Continuous benchmarking
     runs-on: ubuntu-latest
 
     defaults:
