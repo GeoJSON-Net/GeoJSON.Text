@@ -36,7 +36,7 @@ jobs:
           # What benchmark tool the output.txt came from
           tool: 'benchmarkdotnet'
           # Where the output from the benchmark tool is stored
-          output-file-path: 'BenchmarkDotNet.Artifacts/results/GeoJSON.Text.Test.Benchmark.Serialize.SerializeFeatureCollectionLinestring-report-full-compressed.json'
+          output-file-path: 'src/BenchmarkDotNet.Artifacts/results/GeoJSON.Text.Test.Benchmark.Serialize.SerializeFeatureCollectionLinestring-report-full-compressed.json'
           # Workflow will fail when an alert happens
           fail-on-alert: true
         # Upload the updated cache file for the next job by actions/cache
