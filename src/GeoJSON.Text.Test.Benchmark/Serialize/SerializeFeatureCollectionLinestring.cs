@@ -1,12 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
 using System.Collections.Generic;
 
 namespace GeoJSON.Text.Test.Benchmark.Serialize
 {
-    [SimpleJob(RuntimeMoniker.Net60, baseline: true)]
-    [SimpleJob(RuntimeMoniker.Net50)]
-    [SimpleJob(RuntimeMoniker.NetCoreApp31)]
+    [Config(typeof(TestConfig))]
     [MemoryDiagnoser]
     public class SerializeFeatureCollectionLinestring
     {
@@ -16,7 +13,7 @@ namespace GeoJSON.Text.Test.Benchmark.Serialize
         // GeoJson.Text
         private Text.Feature.FeatureCollection featureCollectionGeoJsonTEXT = new Text.Feature.FeatureCollection();
 
-        [Params(1000, 10000, 100000)]
+        [Params(1000, 10000)]
         public int N;
 
         [GlobalSetup]
@@ -30,7 +27,7 @@ namespace GeoJSON.Text.Test.Benchmark.Serialize
             for (int i = 0; i< N; i++)
             {
                 var linestringNET = new Net.Geometry.LineString(line);
-                GeoJSON.Net.Feature.Feature featureNET = new Net.Feature.Feature(linestringNET);
+                Net.Feature.Feature featureNET = new Net.Feature.Feature(linestringNET);
                 featureCollectionGeoJsonNET.Features.Add(featureNET);
 
                 var linestringTEXT = new Text.Geometry.LineString(line);

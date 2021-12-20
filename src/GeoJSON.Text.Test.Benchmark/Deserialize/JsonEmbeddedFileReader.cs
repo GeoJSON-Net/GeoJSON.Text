@@ -15,9 +15,8 @@ namespace GeoJSON.Text.Test.Benchmark.Deserialize
 
             var fileStreamName = $"{currentNamespace}.{fileName}.json";
 
-            Console.WriteLine(fileStreamName);
-
-            using (Stream stream = assembly.GetManifestResourceStream(fileStreamName))
+            using (Stream stream = assembly.GetManifestResourceStream(fileStreamName) 
+                ?? throw new NullReferenceException("Manifest stream should not be null. Incorrect filename specified."))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string result = reader.ReadToEnd();

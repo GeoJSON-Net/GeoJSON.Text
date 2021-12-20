@@ -1,13 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
 using System.Collections.Generic;
 
 namespace GeoJSON.Text.Test.Benchmark.Serialize
 {
-    [SimpleJob(RuntimeMoniker.Net60, baseline: true)]
-    [SimpleJob(RuntimeMoniker.Net50)]
-    [SimpleJob(RuntimeMoniker.NetCoreApp31)]
-    [MemoryDiagnoser]
+    [Config(typeof(TestConfig))]
     public class SerializeFeatureLinestring
     {
         // GeoJson.NET

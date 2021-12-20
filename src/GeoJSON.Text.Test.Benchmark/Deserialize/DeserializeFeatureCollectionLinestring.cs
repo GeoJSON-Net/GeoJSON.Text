@@ -1,17 +1,15 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Jobs;
+using System;
 
 namespace GeoJSON.Text.Test.Benchmark.Deserialize
 {
-    [SimpleJob(RuntimeMoniker.Net60, baseline: true)]
-    [SimpleJob(RuntimeMoniker.Net50)]
-    [SimpleJob(RuntimeMoniker.NetCoreApp31)]
+    [Config(typeof(TestConfig))]
     [MemoryDiagnoser]
     public class DeserializeFeatureCollectionLinestring
     {
         string fileContents = "";
 
-        [Params(1000, 10000, 100000)]
+        [Params(1000, 10000/*, 100000*/)]
         public int N;
 
         [GlobalSetup]
@@ -20,13 +18,13 @@ namespace GeoJSON.Text.Test.Benchmark.Deserialize
             fileContents = JsonEmbeddedFileReader.GetExpectedJson($"DeserializeFeatureCollectionLinestring_{N}");
         }
 
-#pragma warning disable CS8603 // Possible null reference return.
         [Benchmark]
-        public Net.Feature.FeatureCollection DeserializeNewtonsoft() => Newtonsoft.Json.JsonConvert.DeserializeObject<Net.Feature.FeatureCollection>(fileContents);
+        public Net.Feature.FeatureCollection DeserializeNewtonsoft() => Newtonsoft.Json.JsonConvert.DeserializeObject<Net.Feature.FeatureCollection>(fileContents ?? "") 
+            ?? throw new NullReferenceException("Deserialization should not return a null value.");
 
 
         [Benchmark]
-        public Text.Feature.FeatureCollection DeserializeSystemTextJson() => System.Text.Json.JsonSerializer.Deserialize<Text.Feature.FeatureCollection>(fileContents);
-#pragma warning restore CS8603 // Possible null reference return.
+        public Text.Feature.FeatureCollection DeserializeSystemTextJson() => System.Text.Json.JsonSerializer.Deserialize<Text.Feature.FeatureCollection>(fileContents)
+            ?? throw new NullReferenceException("Deserialization should not return a null value.");
     }
 }
