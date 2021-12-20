@@ -22,7 +22,7 @@ jobs:
       - name: Show locations
         run: ls
       - name: Run benchmark
-        run:  dotnet run --project .\GeoJSON.Text.Test.Benchmark\GeoJSON.Text.Test.Benchmark.csproj --framework net6 -c Release -- --job short --filter *
+        run:  dotnet run --project ./GeoJSON.Text.Test.Benchmark/GeoJSON.Text.Test.Benchmark.csproj --framework net6 -c Release -- --job short --filter *
       # Download previous benchmark result from cache (if exists)
       - name: Download previous benchmark data
         uses: actions/cache@v1
