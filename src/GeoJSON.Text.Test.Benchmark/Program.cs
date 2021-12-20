@@ -11,9 +11,9 @@ namespace GeoJSON.Text.Test.Benchmark
         {
             var switcher = new BenchmarkSwitcher(new[] {
                 typeof(SerializeFeatureCollectionLinestring),
-                typeof(SerializeFeatureLinestring),
-                typeof(DeserializeFeatureLinestring),
-                typeof(DeserializeFeatureCollectionLinestring),
+                //typeof(SerializeFeatureLinestring),
+                //typeof(DeserializeFeatureLinestring),
+                //typeof(DeserializeFeatureCollectionLinestring),
             });
             switcher.Run(args);
         }
