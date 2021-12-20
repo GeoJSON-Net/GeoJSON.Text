@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json.Serialization;
 using GeoJSON.Text.Converters;
-
 
 namespace GeoJSON.Text.Geometry
 {
@@ -34,14 +34,17 @@ namespace GeoJSON.Text.Geometry
                 geometries?.ToArray() ?? throw new ArgumentNullException(nameof(geometries)));
         }
 
+        [JsonPropertyName("type")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public override GeoJSONObjectType Type => GeoJSONObjectType.GeometryCollection;
 
         /// <summary>
         /// Gets the list of Polygons enclosed in this MultiPolygon.
         /// </summary>
-        [JsonProperty("geometries", Required = Required.Always)]
-        [JsonConverter(typeof(GeometryConverter))]
-        public ReadOnlyCollection<IGeometryObject> Geometries { get; private set; }
+        [JsonPropertyName("geometries")]
+        [JsonConverter(typeof(GeometryEnumerableConverter))]
+        public ReadOnlyCollection<IGeometryObject> Geometries { get; set; }
 
         #region IEqualityComparer, IEquatable
 

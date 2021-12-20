@@ -1,9 +1,9 @@
-﻿// Copyright © Matt Hunt 2021
+﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
+using GeoJSON.Text.Geometry;
 using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using GeoJSON.Text.Geometry;
 
 namespace GeoJSON.Text.Converters
 {
@@ -11,7 +11,7 @@ namespace GeoJSON.Text.Converters
     ///     Converter to read and write an <see cref="IPosition" />, that is,
     ///     the coordinates of a <see cref="Point" />.
     /// </summary>
-    public class PositionConverter : JsonConverter<Position>
+    public class PositionConverter : JsonConverter<IPosition>
     {
         /// <summary>
         ///     Determines whether this instance can convert the specified object type.
@@ -26,58 +26,55 @@ namespace GeoJSON.Text.Converters
         }
 
         /// <summary>
-        /// Reads the JSON representation of the object.
+        ///     Reads the JSON representation of the object.
         /// </summary>
-        /// <param name="reader">The <see cref="T:System.Text.Json.Utf8JsonReader" /> to read from.</param>
-        /// <param name="typeToConvert">Type of the object.</param>
-        /// <param name="options">Serializer options</param>
-        /// <returns><see cref="Position"/></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public override Position Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        /// <param name="reader">The <see cref="T:Newtonsoft.Json.JsonReader" /> to read from.</param>
+        /// <param name="objectType">Type of the object.</param>
+        /// <param name="existingValue">The existing value of object being read.</param>
+        /// <param name="serializer">The calling serializer.</param>
+        /// <returns>
+        ///     The object value.
+        /// </returns>
+        public override IPosition Read(
+            ref Utf8JsonReader reader,
+            Type type,
+            JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.Null)
-                return null;
-
             double[] coordinates;
 
             try
             {
-                var jsonDoc = JsonDocument.ParseValue(ref reader).RootElement;
-                coordinates = jsonDoc.Deserialize<double[]>();
+                coordinates = JsonSerializer.Deserialize<double[]>(ref reader);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                throw new Exception("Error parsing coordinates.", ex);
+                throw new JsonException("Error parsing coordinates", e);
             }
-            return coordinates?.ToPosition() ?? throw new Exception("Coordinates cannot be null.");
+            return coordinates?.ToPosition() ?? throw new JsonException("Coordinates cannot be null");
         }
 
         /// <summary>
-        /// Writes the JSON representation of the object.
+        ///     Writes the JSON representation of the object.
         /// </summary>
-        /// <param name="writer">The <see cref="T:System.Text.Json.Utf8JsonWriter" /> to write to.</param>
+        /// <param name="writer">The <see cref="T:Newtonsoft.Json.JsonWriter" /> to write to.</param>
         /// <param name="value">The value.</param>
-        /// <param name="options">Serializer options</param>
-        public override void Write(Utf8JsonWriter writer, Position value, JsonSerializerOptions options)
+        /// <param name="serializer">The calling serializer.</param>
+        public override void Write(
+            Utf8JsonWriter writer,
+            IPosition coordinates,
+            JsonSerializerOptions options)
         {
-            if (value is IPosition coordinates)
+            writer.WriteStartArray();
+
+            writer.WriteNumberValue(coordinates.Longitude);
+            writer.WriteNumberValue(coordinates.Latitude);
+
+            if (coordinates.Altitude.HasValue)
             {
-                writer.WriteStartArray();
-
-                writer.WriteNumberValue(coordinates.Longitude);
-                writer.WriteNumberValue(coordinates.Latitude);
-
-                if (coordinates.Altitude.HasValue)
-                {
-                    writer.WriteNumberValue(coordinates.Altitude.Value);
-                }
-
-                writer.WriteEndArray();
+                writer.WriteNumberValue(coordinates.Altitude.Value);
             }
-            else
-            {
-                throw new NotImplementedException();
-            }
+
+            writer.WriteEndArray();
         }
     }
 }
