@@ -9,6 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Deserialize\DeserializeFeatureCollectionLinestring_1000.json" />
+    <None Remove="Deserialize\DeserializeFeatureCollectionLinestring_10000.json" />
+    <None Remove="Deserialize\DeserializeFeatureCollectionLinestring_100000.json" />
+    <None Remove="FeatureTests_Can_Serialize_LineString_Feature.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Deserialize\DeserializeFeatureCollectionLinestring_100000.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Deserialize\DeserializeFeatureCollectionLinestring_1000.json" />
+    <EmbeddedResource Include="Deserialize\DeserializeFeatureCollectionLinestring_10000.json" />
+    <EmbeddedResource Include="Deserialize\DeserializeFeatureLinestring.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
     <PackageReference Include="GeoJSON.Net" Version="1.2.19" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

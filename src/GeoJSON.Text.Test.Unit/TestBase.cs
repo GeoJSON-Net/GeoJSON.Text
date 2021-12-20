@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -8,21 +7,6 @@ namespace GeoJSON.Text.Tests
 {
     public abstract class TestBase
     {
-        private static readonly Assembly ThisAssembly = typeof(TestBase)
-        .Assembly;
-        private static readonly string AssemblyName = ThisAssembly.GetName().Name;
-
-        public static string AssemblyDirectory
-        {
-            get
-            {
-                string codeBase = ThisAssembly.Location;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
-        }
-
         protected string GetExpectedJson([CallerMemberName] string name = null)
         {
             var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
