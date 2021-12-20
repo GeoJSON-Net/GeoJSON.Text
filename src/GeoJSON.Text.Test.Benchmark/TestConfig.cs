@@ -4,6 +4,7 @@ using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Exporters.Csv;
+using BenchmarkDotNet.Exporters.Json;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Order;
 using BenchmarkDotNet.Reports;
@@ -33,7 +34,10 @@ namespace GeoJSON.Text.Test.Benchmark
                 .WithIterationCount(3));     // 3 target iteration);
 
             AddColumn(RankColumn.Roman);
-            AddExporter(CsvMeasurementsExporter.Default, RPlotExporter.Default);
+            AddExporter(CsvMeasurementsExporter.Default,
+                RPlotExporter.Default,
+                JsonExporter.Full,
+                JsonExporter.FullCompressed);
             AddDiagnoser(MemoryDiagnoser.Default);
 
             WithOrderer(new FastestToSlowestOrderer());

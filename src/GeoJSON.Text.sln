@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7AFBD129-E5A1-48D0-B7F6-7CCD6D06AF17}"
 	ProjectSection(SolutionItems) = preProject
 		..\.github\workflows\ci-build.yml = ..\.github\workflows\ci-build.yml
+		..\.github\workflows\continous-benchmark.yml = ..\.github\workflows\continous-benchmark.yml
 		..\LICENSE.md = ..\LICENSE.md
 		..\README.md = ..\README.md
 	EndProjectSection
@@ -14,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoJSON.Text", "GeoJSON.Tex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoJSON.Text.Test.Unit", "GeoJSON.Text.Test.Unit\GeoJSON.Text.Test.Unit.csproj", "{6C93B314-9208-4684-B873-172F7EC81689}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoJSON.Text.Test.Benchmark", "GeoJSON.Text.Test.Benchmark\GeoJSON.Text.Test.Benchmark.csproj", "{7C065EE0-D877-4D1C-AF2C-A6A6665C64DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoJSON.Text.Test.Benchmark", "GeoJSON.Text.Test.Benchmark\GeoJSON.Text.Test.Benchmark.csproj", "{7C065EE0-D877-4D1C-AF2C-A6A6665C64DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -21,8 +21,6 @@ jobs:
             5.0.x
             6.0.x
       # Run benchmark with `go test -bench` and stores the output to a file
-      - name: Show locations
-        run: ls
       - name: Run benchmark
         run:  dotnet run --project ./GeoJSON.Text.Test.Benchmark/GeoJSON.Text.Test.Benchmark.csproj --framework net6 -c Release -- --job short --filter *
       # Download previous benchmark result from cache (if exists)
@@ -32,15 +30,24 @@ jobs:
           path: ./cache
           key: ${{ runner.os }}-benchmark
       # Run `github-action-benchmark` action
-      - name: Store benchmark result
+      - name: Store benchmark result for serialize feature collection
         uses: rhysd/github-action-benchmark@v1
         with:
           # What benchmark tool the output.txt came from
           tool: 'benchmarkdotnet'
           # Where the output from the benchmark tool is stored
-          output-file-path: output.txt
-          # Where the previous data file is stored
-          external-data-json-path: ./cache/benchmark-data.json
+          output-file-path: BenchmarkDotNet.Artifacts/results/GeoJSON.Text.Test.Benchmark.Serialize.SerializeFeatureCollectionLinestring-report-full-compressed.json
           # Workflow will fail when an alert happens
           fail-on-alert: true
-      # Upload the updated cache file for the next job by actions/cache
+        # Upload the updated cache file for the next job by actions/cache
+        # Run `github-action-benchmark` action
+      - name: Store benchmark result for deserialize feature collection
+        uses: rhysd/github-action-benchmark@v1
+        with:
+          # What benchmark tool the output.txt came from
+          tool: 'benchmarkdotnet'
+          # Where the output from the benchmark tool is stored
+          output-file-path: BenchmarkDotNet.Artifacts/results/GeoJSON.Text.Test.Benchmark.Deserialize.DeserializeFeatureCollectionLinestring-report-full-compressed.json
+          # Workflow will fail when an alert happens
+          fail-on-alert: true
+        # Upload the updated cache file for the next job by actions/cache
