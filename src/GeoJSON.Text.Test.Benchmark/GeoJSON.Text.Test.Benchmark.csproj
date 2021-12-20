@@ -9,20 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Deserialize\DeserializeFeatureCollectionLinestring_1000.json" />
-    <None Remove="Deserialize\DeserializeFeatureCollectionLinestring_10000.json" />
-    <None Remove="Deserialize\DeserializeFeatureCollectionLinestring_100000.json" />
+    <None Remove="FeatureCollectionLinestring_1000.json" />
+    <None Remove="GeoJsonNetVsSystemText\Deserialize\DeserializeFeatureCollectionLinestring_1000.json" />
+    <None Remove="GeoJsonNetVsSystemText\Deserialize\DeserializeFeatureCollectionLinestring_10000.json" />
+    <None Remove="GeoJsonNetVsSystemText\Deserialize\DeserializeFeatureCollectionLinestring_100000.json" />
     <None Remove="FeatureTests_Can_Serialize_LineString_Feature.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Deserialize\DeserializeFeatureCollectionLinestring_100000.json" />
+    <EmbeddedResource Include="FeatureCollectionLinestring_1000.json" />
+    <EmbeddedResource Include="FeatureCollectionLinestring_100000.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Deserialize\DeserializeFeatureCollectionLinestring_1000.json" />
-    <EmbeddedResource Include="Deserialize\DeserializeFeatureCollectionLinestring_10000.json" />
-    <EmbeddedResource Include="Deserialize\DeserializeFeatureLinestring.json" />
+    <EmbeddedResource Include="FeatureCollectionLinestring_10000.json" />
+    <EmbeddedResource Include="FeatureLinestring.json" />
   </ItemGroup>
 
   <ItemGroup>

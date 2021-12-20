@@ -14,7 +14,7 @@ namespace GeoJSON.Text.Test.Benchmark.Deserialize
         [GlobalSetup]
         public void Setup()
         {
-            fileContents = JsonEmbeddedFileReader.GetExpectedJson($"DeserializeFeatureCollectionLinestring_{N}");
+            fileContents = JsonEmbeddedFileReader.GetExpectedJson($"FeatureCollectionLinestring_{N}");
         }
 
         [Benchmark]

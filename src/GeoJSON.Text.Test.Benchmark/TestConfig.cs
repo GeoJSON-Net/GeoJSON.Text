@@ -39,8 +39,6 @@ namespace GeoJSON.Text.Test.Benchmark
                 JsonExporter.Full,
                 JsonExporter.FullCompressed);
             AddDiagnoser(MemoryDiagnoser.Default);
-
-            WithOrderer(new FastestToSlowestOrderer());
         }
 
         private class FastestToSlowestOrderer : IOrderer

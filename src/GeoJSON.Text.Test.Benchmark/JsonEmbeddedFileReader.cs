@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace GeoJSON.Text.Test.Benchmark.Deserialize
+namespace GeoJSON.Text.Test.Benchmark
 {
     internal static class JsonEmbeddedFileReader
     {
@@ -11,9 +11,9 @@ namespace GeoJSON.Text.Test.Benchmark.Deserialize
             var myType = typeof(JsonEmbeddedFileReader);
             var currentNamespace = myType.Namespace;
 
-            var assembly = Assembly.GetCallingAssembly();
-
             var fileStreamName = $"{currentNamespace}.{fileName}.json";
+
+            var assembly = Assembly.GetCallingAssembly();
 
             using (Stream stream = assembly.GetManifestResourceStream(fileStreamName) 
                 ?? throw new NullReferenceException("Manifest stream should not be null. Incorrect filename specified."))

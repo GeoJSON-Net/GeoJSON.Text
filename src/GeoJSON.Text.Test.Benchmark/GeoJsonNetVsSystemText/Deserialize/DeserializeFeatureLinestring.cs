@@ -12,7 +12,7 @@ namespace GeoJSON.Text.Test.Benchmark.Deserialize
         [GlobalSetup]
         public void Setup()
         {
-            fileContents = JsonEmbeddedFileReader.GetExpectedJson("DeserializeFeatureLinestring");
+            fileContents = JsonEmbeddedFileReader.GetExpectedJson("FeatureLinestring");
         }
 
         [Benchmark]
