@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+	<TargetFrameworks>netcoreapp3.1;net5;net6</TargetFrameworks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <SignAssembly>False</SignAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="FeatureCollectionLinestring_1000.json" />
+    <None Remove="GeoJsonNetVsSystemText\Deserialize\DeserializeFeatureCollectionLinestring_1000.json" />
+    <None Remove="GeoJsonNetVsSystemText\Deserialize\DeserializeFeatureCollectionLinestring_10000.json" />
+    <None Remove="GeoJsonNetVsSystemText\Deserialize\DeserializeFeatureCollectionLinestring_100000.json" />
+    <None Remove="FeatureTests_Can_Serialize_LineString_Feature.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="FeatureCollectionLinestring_1000.json" />
+    <EmbeddedResource Include="FeatureCollectionLinestring_100000.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="FeatureCollectionLinestring_10000.json" />
+    <EmbeddedResource Include="FeatureLinestring.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    <PackageReference Include="GeoJSON.Net" Version="1.2.19" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GeoJSON.Text\GeoJSON.Text.csproj" />
+  </ItemGroup>
+
+</Project>
