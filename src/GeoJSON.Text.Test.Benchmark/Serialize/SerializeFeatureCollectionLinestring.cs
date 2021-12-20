@@ -13,7 +13,7 @@ namespace GeoJSON.Text.Test.Benchmark.Serialize
         // GeoJson.Text
         private Text.Feature.FeatureCollection featureCollectionGeoJsonTEXT = new Text.Feature.FeatureCollection();
 
-        [Params(1000, 10000)]
+        [Params(10000)]
         public int N;
 
         [GlobalSetup]

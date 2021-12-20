@@ -4,12 +4,11 @@ using System;
 namespace GeoJSON.Text.Test.Benchmark.Deserialize
 {
     [Config(typeof(TestConfig))]
-    [MemoryDiagnoser]
     public class DeserializeFeatureCollectionLinestring
     {
         string fileContents = "";
 
-        [Params(1000, 10000/*, 100000*/)]
+        [Params(10000)]
         public int N;
 
         [GlobalSetup]

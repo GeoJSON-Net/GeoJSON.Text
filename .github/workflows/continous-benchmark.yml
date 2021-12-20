@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-benchmark
       # Run `github-action-benchmark` action
       - name: Store benchmark result for serialize feature collection
-        uses: rhysd/github-action-benchmark@v1
+        uses: Happypig375/github-action-benchmark@v1
         with:
           # What benchmark tool the output.txt came from
           tool: 'benchmarkdotnet'
@@ -42,7 +42,7 @@ jobs:
         # Upload the updated cache file for the next job by actions/cache
         # Run `github-action-benchmark` action
       - name: Store benchmark result for deserialize feature collection
-        uses: rhysd/github-action-benchmark@v1
+        uses: Happypig375/github-action-benchmark@v1
         with:
           # What benchmark tool the output.txt came from
           tool: 'benchmarkdotnet'

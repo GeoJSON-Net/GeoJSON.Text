@@ -9,13 +9,13 @@ namespace GeoJSON.Text.Test.Benchmark
     {
         public static void Main(string[] args)
         {
-            // Serialize
-            var summary1 = BenchmarkRunner.Run<SerializeFeatureCollectionLinestring>();
-            var summary2 = BenchmarkRunner.Run<SerializeFeatureLinestring>();
-
-            // Deserialize
-            var summary3 = BenchmarkRunner.Run<DeserializeFeatureLinestring>();
-            var summary4 = BenchmarkRunner.Run<DeserializeFeatureCollectionLinestring>();
+            var switcher = new BenchmarkSwitcher(new[] {
+                typeof(SerializeFeatureCollectionLinestring),
+                typeof(SerializeFeatureLinestring),
+                typeof(DeserializeFeatureLinestring),
+                typeof(DeserializeFeatureCollectionLinestring),
+            });
+            switcher.Run(args);
         }
     }
 }
