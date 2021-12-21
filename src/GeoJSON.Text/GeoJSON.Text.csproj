@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.0;net5;net6</TargetFrameworks>
+		<TargetFrameworks>netcoreapp3.1;net5;net6</TargetFrameworks>
 		<LangVersion>Latest</LangVersion>
 		<Description>.Net types for the GeoJSON RFC to be used with System.Text.Json</Description>
 		<Authors>Matt Hunt</Authors>
