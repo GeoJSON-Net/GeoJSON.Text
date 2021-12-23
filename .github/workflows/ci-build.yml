@@ -37,7 +37,7 @@ jobs:
       - name: Test
         run: dotnet test src/${{ env.PROJECT_NAME }}.sln -c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../coverage/
       - uses: codecov/codecov-action@v2
-        if: ${{ github.event_name == 'push' }}
+        if: github.ref == 'refs/heads/main'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: src/coverage
