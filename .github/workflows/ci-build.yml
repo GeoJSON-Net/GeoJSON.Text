@@ -20,9 +20,6 @@ jobs:
 
     name: 'Build and Test'
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: ./src
 
     env: 
       VSTEST_CONNECTION_TIMEOUT: 900
