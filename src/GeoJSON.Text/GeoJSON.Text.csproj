@@ -6,7 +6,7 @@
 		<Description>.Net types for the GeoJSON RFC to be used with System.Text.Json</Description>
 		<Authors>Matt Hunt</Authors>
 		<Company>GeoJSON.Text</Company>
-		<Copyright>Copyright © Matt Hunt, Xavier Fischer and Contributors, 2014 - 2021</Copyright>
+		<Copyright>Copyright © Matt Hunt  and Contributors, 2014 - 2021</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Version>0.1.0</Version>
 		<PackageProjectUrl>https://github.com/GeoJSON-Net/GeoJSON.Text</PackageProjectUrl>
@@ -20,8 +20,15 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>../key.snk</AssemblyOriginatorKeyFile>
+		<DelaySign>false</DelaySign>
+
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>	
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
