@@ -8,7 +8,7 @@ namespace GeoJSON.Text.Test.Benchmark.Deserialize
     {
         string fileContents = "";
 
-        [Params(10000)]
+        [Params(100000)]
         public int N;
 
         [GlobalSetup]
@@ -18,12 +18,12 @@ namespace GeoJSON.Text.Test.Benchmark.Deserialize
         }
 
         [Benchmark]
-        public Net.Feature.FeatureCollection DeserializeFeatureCollectionNewtonsoft() => Newtonsoft.Json.JsonConvert.DeserializeObject<Net.Feature.FeatureCollection>(fileContents ?? "") 
+        public Net.Feature.FeatureCollection DeserializeNewtonsoft() => Newtonsoft.Json.JsonConvert.DeserializeObject<Net.Feature.FeatureCollection>(fileContents ?? "") 
             ?? throw new NullReferenceException("Deserialization should not return a null value.");
 
 
         [Benchmark]
-        public Text.Feature.FeatureCollection DeserializeFeatureCollectionSystemTextJson() => System.Text.Json.JsonSerializer.Deserialize<Text.Feature.FeatureCollection>(fileContents)
+        public Text.Feature.FeatureCollection DeserializeSystemTextJson() => System.Text.Json.JsonSerializer.Deserialize<Text.Feature.FeatureCollection>(fileContents)
             ?? throw new NullReferenceException("Deserialization should not return a null value.");
     }
 }
