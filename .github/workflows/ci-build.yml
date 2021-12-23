@@ -4,22 +4,26 @@ on:
   push:
   pull_request:
     branches: [ main ]
+  release:
+    types: 
+      - published
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+  # Project name to pack and publish
+  PROJECT_NAME: GeoJSON.Text
 
 jobs:
-  Build:
+  build:
 
     name: 'Build and Test'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src
-
-    env: 
-      VSTEST_CONNECTION_TIMEOUT: 900
-         
+             
     steps:
       - uses: actions/checkout@v2      
-      - name: Setup .NET Core
+      - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: |
@@ -27,16 +31,19 @@ jobs:
             5.0.x
             6.0.x
       - name: Install dependencies
-        run: dotnet restore 
+        run: dotnet restore src/${{ env.PROJECT_NAME }}.sln
       - name: Build solution
-        run: dotnet build -c Release --no-restore /p:Version=1.2.3.4
+        run: dotnet build src/${{ env.PROJECT_NAME }}.sln -c Release --no-restore
       - name: Test
-        run: dotnet test -c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../coverage/
+        run: dotnet test src/${{ env.PROJECT_NAME }}.sln -c Release --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../coverage/
       - uses: codecov/codecov-action@v2
         if: ${{ github.event_name == 'push' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: src/coverage
           flags: unittests
-          
-  
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: nupkg
+          path: src/${{ env.PROJECT_NAME }}/bin/Release/*.nupkg
