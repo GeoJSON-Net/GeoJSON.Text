@@ -44,8 +44,8 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
         public void Can_Serialize_CRS_issue_89()
         {
             var expected =
-                "{\"type\":\"Point\",\"coordinates\":[34.56,12.34],\"crs\":{\"properties\":{\"name\":\"TEST NAME\"},\"type\":\"name\"}}";
-            var point = new Point(new Position(12.34, 34.56)) { CRS = new NamedCRS("TEST NAME") };
+                "{\"type\":\"Point\",\"coordinates\":[34.57,12.35],\"crs\":{\"properties\":{\"name\":\"TEST NAME\"},\"type\":\"name\"}}";
+            var point = new Point(new Position(12.35, 34.57)) { CRS = new NamedCRS("TEST NAME") };
 
             var json = JsonSerializer.Serialize(point);
 
@@ -57,8 +57,8 @@ namespace GeoJSON.Text.Tests.CoordinateReferenceSystem
         public void Can_Serialize_DefaultCRS_issue_89()
         {
             var expected =
-                "{\"type\":\"Point\",\"coordinates\":[34.56,12.34],\"crs\":{\"properties\":{\"name\":\"urn:ogc:def:crs:OGC::CRS84\"},\"type\":\"name\"}}";
-            var point = new Point(new Position(12.34, 34.56)) { CRS = new NamedCRS("urn:ogc:def:crs:OGC::CRS84") };
+                "{\"type\":\"Point\",\"coordinates\":[34.57,12.35],\"crs\":{\"properties\":{\"name\":\"urn:ogc:def:crs:OGC::CRS84\"},\"type\":\"name\"}}";
+            var point = new Point(new Position(12.35, 34.57)) { CRS = new NamedCRS("urn:ogc:def:crs:OGC::CRS84") };
 
             var json = JsonSerializer.Serialize(point);
 
