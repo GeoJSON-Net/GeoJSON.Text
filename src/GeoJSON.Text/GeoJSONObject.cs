@@ -15,7 +15,7 @@ namespace GeoJSON.Text
     /// </summary>
     public abstract class GeoJSONObject : IGeoJSONObject, IEqualityComparer<GeoJSONObject>, IEquatable<GeoJSONObject>
     {
-        internal static readonly DoubleTenDecimalPlaceComparer DoubleComparer = new DoubleTenDecimalPlaceComparer();
+        internal static readonly DoubleTenDecimalPlaceComparer DoubleComparer = new();
 
         /// <summary>
         ///     Gets or sets the (optional)

@@ -12,7 +12,7 @@ namespace GeoJSON.Text.Geometry
     /// </summary>
     public class Position : IPosition, IEqualityComparer<Position>, IEquatable<Position>
     {
-        private static readonly DoubleTenDecimalPlaceComparer DoubleComparer = new DoubleTenDecimalPlaceComparer();
+        private static readonly DoubleTenDecimalPlaceComparer DoubleComparer = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Position" /> class.

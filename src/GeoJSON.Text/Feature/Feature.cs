@@ -271,7 +271,7 @@ namespace GeoJSON.Text.Feature
 
         public bool Equals(Feature<TGeometry> other)
         {
-            if (ReferenceEquals(null, other)) return false;
+            if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             if (Geometry == null && other.Geometry == null)
@@ -294,7 +294,7 @@ namespace GeoJSON.Text.Feature
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Feature<TGeometry>) obj);
         }
@@ -311,7 +311,7 @@ namespace GeoJSON.Text.Feature
 
         public static bool operator !=(Feature<TGeometry> left, Feature<TGeometry> right)
         {
-            return !(left?.Equals(right) ?? ReferenceEquals(null, right));
+            return !(left?.Equals(right) ?? right is null);
         }
     }
 }

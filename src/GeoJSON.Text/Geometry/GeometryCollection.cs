@@ -20,7 +20,7 @@ namespace GeoJSON.Text.Geometry
         /// <summary>
         /// Initializes a new instance of the <see cref="GeometryCollection" /> class.
         /// </summary>
-        public GeometryCollection() : this(new Array.Empty[0])
+        public GeometryCollection() : this(Array.Empty<IGeometryObject>())
         {
         }
 
@@ -85,7 +85,7 @@ namespace GeoJSON.Text.Geometry
             {
                 return true;
             }
-            if (ReferenceEquals(null, right))
+            if (right is null)
             {
                 return false;
             }

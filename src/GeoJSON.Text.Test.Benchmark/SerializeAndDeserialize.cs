@@ -11,10 +11,10 @@ namespace GeoJSON.Text.Test.Benchmark
         string fileContents = "";
 
         // GeoJson.NET
-        private Net.Feature.FeatureCollection featureCollectionGeoJsonNET = new Net.Feature.FeatureCollection();
+        private readonly Net.Feature.FeatureCollection featureCollectionGeoJsonNET = new Net.Feature.FeatureCollection();
 
         // GeoJson.Text
-        private Text.Feature.FeatureCollection featureCollectionGeoJsonTEXT = new Text.Feature.FeatureCollection();
+        private readonly Text.Feature.FeatureCollection featureCollectionGeoJsonTEXT = new Text.Feature.FeatureCollection();
 
         [Params(1000, 10000)]
         public int N;
