@@ -31,6 +31,10 @@ jobs:
             3.1.x
             5.0.x
             6.0.x
+      - name: Install dependencies
+        run: dotnet restore src/${{ env.PROJECT_NAME }}.sln
+      - name: Build solution
+        run: dotnet build src/${{ env.PROJECT_NAME }}.sln -c Release --no-restore
       - name: Create Release NuGet package
         run: |
           arrTag=(${GITHUB_REF//\// })
