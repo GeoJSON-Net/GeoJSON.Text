@@ -20,7 +20,7 @@ namespace GeoJSON.Text.Geometry
         /// <summary>
         /// Initializes a new instance of the <see cref="GeometryCollection" /> class.
         /// </summary>
-        public GeometryCollection() : this(new IGeometryObject[0])
+        public GeometryCollection() : this(new Array.Empty[0])
         {
         }
 

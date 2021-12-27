@@ -86,7 +86,7 @@ namespace GeoJSON.Text
             {
                 return true;
             }
-            if (ReferenceEquals(null, right))
+            if (right is null)
             {
                 return false;
             }
@@ -101,8 +101,8 @@ namespace GeoJSON.Text
                 return false;
             }
 
-            var leftIsNull = ReferenceEquals(null, left.BoundingBoxes);
-            var rightIsNull = ReferenceEquals(null, right.BoundingBoxes);
+            var leftIsNull = left.BoundingBoxes is null;
+            var rightIsNull = right.BoundingBoxes is null;
             var bothAreMissing = leftIsNull && rightIsNull;
 
             if (bothAreMissing || leftIsNull != rightIsNull)
@@ -122,7 +122,7 @@ namespace GeoJSON.Text
             {
                 return true;
             }
-            if (ReferenceEquals(null, right))
+            if (right is null)
             {
                 return false;
             }

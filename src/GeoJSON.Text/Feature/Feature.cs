@@ -143,7 +143,7 @@ namespace GeoJSON.Text.Feature
         /// <returns></returns>
         public bool Equals(Feature<TGeometry, TProps> other)
         {
-            if (ReferenceEquals(null, other)) return false;
+            if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
             return base.Equals(other)
                    && string.Equals(Id, other.Id)
@@ -153,7 +153,7 @@ namespace GeoJSON.Text.Feature
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
             return Equals((Feature<TGeometry, TProps>) obj);
@@ -306,7 +306,7 @@ namespace GeoJSON.Text.Feature
 
         public static bool operator ==(Feature<TGeometry> left, Feature<TGeometry> right)
         {
-            return left?.Equals(right) ?? ReferenceEquals(null, right);
+            return left?.Equals(right) ?? right is null;
         }
 
         public static bool operator !=(Feature<TGeometry> left, Feature<TGeometry> right)
