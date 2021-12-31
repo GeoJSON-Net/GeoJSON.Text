@@ -29,7 +29,7 @@ namespace GeoJSON.Text.Geometry
         //[JsonConstructor]
         public LineString(IEnumerable<IEnumerable<double>> coordinates)
         : this(coordinates?.Select(latLongAlt => (IPosition)latLongAlt.ToPosition())
-               ?? throw new ArgumentException(nameof(coordinates)))
+               ?? throw new ArgumentNullException(nameof(coordinates)))
         {
         }
 
@@ -131,7 +131,7 @@ namespace GeoJSON.Text.Geometry
             {
                 return true;
             }
-            if (ReferenceEquals(null, right))
+            if (right is null)
             {
                 return false;
             }

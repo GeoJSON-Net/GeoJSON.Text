@@ -462,7 +462,7 @@ namespace GeoJSON.Text.Tests.Feature
         }
 
 
-        private IGeometryObject GetGeometry()
+        private static IGeometryObject GetGeometry()
         {
             var coordinates = new List<LineString>
             {

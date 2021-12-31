@@ -30,7 +30,7 @@ namespace GeoJSON.Text.Geometry
         public MultiLineString(IEnumerable<LineString> coordinates)
         {
             Coordinates =new ReadOnlyCollection<LineString>(
-                coordinates?.ToArray() ?? new LineString[0]);
+                coordinates?.ToArray() ?? Array.Empty<LineString>());
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace GeoJSON.Text.Geometry
             {
                 return true;
             }
-            if (ReferenceEquals(null, right))
+            if (right is null)
             {
                 return false;
             }

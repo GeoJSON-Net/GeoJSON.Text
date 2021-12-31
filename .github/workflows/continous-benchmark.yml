@@ -6,7 +6,7 @@ on:
 jobs:
   benchmark:
     name: Continuous benchmarking
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
 
     defaults:
       run:

@@ -28,7 +28,7 @@ namespace GeoJSON.Text.Geometry
         /// <param name="coordinates">The coordinates.</param>
         public MultiPoint(IEnumerable<Point> coordinates)
         {
-            Coordinates = new ReadOnlyCollection<Point>(coordinates?.ToArray() ?? new Point[0]);
+            Coordinates = new ReadOnlyCollection<Point>(coordinates?.ToArray() ?? Array.Empty<Point>());
         }
 
         //[JsonConstructor]
@@ -89,7 +89,7 @@ namespace GeoJSON.Text.Geometry
             {
                 return true;
             }
-            if (ReferenceEquals(null, right))
+            if (right is null)
             {
                 return false;
             }

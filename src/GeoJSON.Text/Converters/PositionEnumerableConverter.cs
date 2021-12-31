@@ -14,7 +14,7 @@ namespace GeoJSON.Text.Converters
     /// </summary>
     public class PositionEnumerableConverter : JsonConverter<IReadOnlyCollection<IPosition>>
     {
-        private static readonly PositionConverter PositionConverter = new PositionConverter();
+        private static readonly PositionConverter PositionConverter = new();
 
         /// <summary>
         ///     Determines whether this instance can convert the specified object type.
