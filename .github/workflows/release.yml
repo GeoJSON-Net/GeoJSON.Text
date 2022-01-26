@@ -24,7 +24,18 @@ jobs:
     runs-on: windows-2019
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Validate release version
+        run: |
+          $VERSION=${env:GITHUB_REF_NAME}
+          if($VERSION[0] -eq "v"){
+            $VERSION=$VERSION.substring(1)
+          }
+          if(!($VERSION -match ${env:NUGET_VERSIONING_REGEX})) {
+            throw "Release tag did not contain a valid NUGET version. TAG was : ${env:GITHUB_REF_NAME}"
+          }
+          echo "Version to use is - $VERSION"
+          echo "RELEASE_VERSION=$VERSION" | Out-File -FilePath ${env:GITHUB_ENV} -Append
+      - uses: actions/checkout@v2 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -37,15 +48,6 @@ jobs:
       - name: Build solution
         run: dotnet build src/${{ env.PROJECT_NAME }}.sln -c Release --no-restore
       - name: Create Release NuGet package
-        run: |
-          $VERSION=${env:GITHUB_REF_NAME}
-          if($VERSION[0] -eq "v"){
-            $VERSION=$VERSION.substring(1)
-          }
-
-          if(!($VERSION -match ${env:NUGET_VERSIONING_REGEX})) {
-            throw "Release tag did not contain a valid NUGET version. TAG was : ${env:GITHUB_REF_NAME}"
-          }
-          dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=$VERSION -o nupkg src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
+        run: dotnet pack -v normal -c Release --include-symbols --include-source -p:PackageVersion=${{ env.RELEASE_VERSION }} -o nupkg src/${{ env.PROJECT_NAME }}/${{ env.PROJECT_NAME }}.csproj
       - name: Push to Nuget
-        run: dotnet nuget push "./nupkg/${{ env.PROJECT_NAME }}.$VERSION.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_KEY}} --skip-duplicate
+        run: dotnet nuget push "./nupkg/${{ env.PROJECT_NAME }}.${{ env.RELEASE_VERSION }}.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{secrets.NUGET_KEY}} --skip-duplicate
