@@ -4,11 +4,13 @@
     <ProjectGuid>{6C93B314-9208-4684-B873-172F7EC81689}</ProjectGuid>
     <RootNamespace>GeoJSON.Text.Tests</RootNamespace>
     <AssemblyName>GeoJSON.Text.Tests</AssemblyName>
-    <TargetFrameworks>net462;netcoreapp3.1;net5;net6</TargetFrameworks>
+    <TargetFrameworks>net462,net6.0;net7.0;netcoreapp3.1</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Feature\FeatureCollectionTests_Can_Deserialize.json" />
+    <None Remove="Feature\FeatureCollectionTests_Can_DeserializeGeneric.json" />
     <None Remove="Feature\FeatureTests_Can_Deserialize_Point_Feature.json" />
     <None Remove="Feature\FeatureTests_Can_Serialize_Dictionary_Subclass.json" />
     <None Remove="Feature\FeatureTests_Can_Serialize_LineString_Feature.json" />
@@ -34,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Feature\FeatureCollectionTests_Can_Deserialize.json" />
+    <EmbeddedResource Include="Feature\FeatureCollectionTests_Can_DeserializeGeneric.json" />
     <EmbeddedResource Include="Feature\FeatureTests_Can_Deserialize_Point_Feature.json" />
     <EmbeddedResource Include="Feature\FeatureTests_Can_Serialize_Dictionary_Subclass.json" />
     <EmbeddedResource Include="Feature\FeatureTests_Can_Serialize_LineString_Feature.json" />
