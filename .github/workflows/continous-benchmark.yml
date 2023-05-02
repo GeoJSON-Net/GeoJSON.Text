@@ -21,6 +21,7 @@ jobs:
             3.1.x
             5.0.x
             6.0.x
+            7.0.x
       # Run benchmark with `go test -bench` and stores the output to a file
       - name: Run benchmark
         run:  dotnet run --project ./GeoJSON.Text.Test.Benchmark/GeoJSON.Text.Test.Benchmark.csproj --framework net6 --runtimes net60 -c Release -- --job medium -f *SerializeAndDeserialize*
