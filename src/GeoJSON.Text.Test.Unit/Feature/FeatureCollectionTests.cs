@@ -46,8 +46,8 @@ public class FeatureCollectionTests : TestBase
         Assert.IsNotNull(featureCollection);
         Assert.IsNotNull(featureCollection.Features);
         Assert.AreEqual(featureCollection.Features.Count, 3);
-        Assert.AreEqual("DD", featureCollection.Features.First().Properties.Name);
-        Assert.AreEqual(123, featureCollection.Features.First().Properties.Size);
+        Assert.AreEqual("DD", featureCollection.Features.First().Properties.name);
+        Assert.AreEqual(123, featureCollection.Features.First().Properties.size);
     }
 
     [Test]
@@ -188,7 +188,7 @@ public class FeatureCollectionTests : TestBase
 
     private class FeatureCollectionTestPropertyObject
     {
-        public string Name { get; set; }
-        public int Size { get; set; }
+        public string name { get; set; }
+        public int size { get; set; }
     }
 }
