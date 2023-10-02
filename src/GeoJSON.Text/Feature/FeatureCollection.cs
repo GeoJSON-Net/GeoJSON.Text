@@ -164,7 +164,7 @@ public class FeatureCollection<TProps> : FeatureCollection, IEqualityComparer<Fe
     /// </summary>
     /// <value>The features.</value>
     [JsonPropertyName("features")]
-    new public List<Feature<IGeometryObject, TProps>> Features { get; private set; }
+    public new List<Feature<IGeometryObject, TProps>> Features { get; set; }
 
     #region IEqualityComparer, IEquatable
 
