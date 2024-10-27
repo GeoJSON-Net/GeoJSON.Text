@@ -4,9 +4,8 @@
     <ProjectGuid>{6C93B314-9208-4684-B873-172F7EC81689}</ProjectGuid>
     <RootNamespace>GeoJSON.Text.Tests</RootNamespace>
     <AssemblyName>GeoJSON.Text.Tests</AssemblyName>
-    <TargetFrameworks>net6.0;net7.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Feature\FeatureCollectionTests_Can_Deserialize.json" />
@@ -61,18 +60,18 @@
     <EmbeddedResource Include="Geometry\PolygonTests_Can_Serialize.json" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="3.1.0">
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.msbuild" Version="3.1.0">
+    <PackageReference Include="coverlet.msbuild" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoJSON.Text\GeoJSON.Text.csproj" />

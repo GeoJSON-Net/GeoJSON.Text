@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>net6.0;net8.0;netstandard2.0</TargetFrameworks>
 		<LangVersion>10</LangVersion>
 		<Description>.Net types for the GeoJSON RFC to be used with System.Text.Json</Description>
 		<Authors>Matt Hunt</Authors>
@@ -29,15 +29,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)'== 'netStandard2.0'">
-		<PackageReference Include="System.Text.Json" Version="6.0.1" />
+	<ItemGroup Condition="'$(TargetFramework)'== 'netstandard2.0'">
+		<PackageReference Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
 
 </Project>
