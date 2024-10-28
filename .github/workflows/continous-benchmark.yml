@@ -13,21 +13,18 @@ jobs:
         working-directory: ./src
     
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            3.1.x
-            5.0.x
-            6.0.x
-            7.0.x
+            8.0.x
       # Run benchmark with `go test -bench` and stores the output to a file
       - name: Run benchmark
-        run:  dotnet run --project ./GeoJSON.Text.Test.Benchmark/GeoJSON.Text.Test.Benchmark.csproj --framework net6 --runtimes net60 -c Release -- --job medium -f *SerializeAndDeserialize*
+        run:  dotnet run --project ./GeoJSON.Text.Test.Benchmark/GeoJSON.Text.Test.Benchmark.csproj -c Release -- --job medium -f *SerializeAndDeserialize*
       # Download previous benchmark result from cache (if exists)
       - name: Download previous benchmark data
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           path: ./cache
           key: ${{ runner.os }}-benchmark
