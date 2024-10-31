@@ -33,7 +33,7 @@ namespace GeoJSON.Text.Test.Benchmark
 
         private class FastestToSlowestOrderer : IOrderer
         {
-            public IEnumerable<BenchmarkCase> GetExecutionOrder(ImmutableArray<BenchmarkCase> benchmarksCase) =>
+            public IEnumerable<BenchmarkCase> GetExecutionOrder(ImmutableArray<BenchmarkCase> benchmarksCase, IEnumerable<BenchmarkLogicalGroupRule>? order = null) =>
                 from benchmark in benchmarksCase
                 orderby benchmark.Parameters["X"] descending,
                     benchmark.Descriptor.WorkloadMethodDisplayInfo
@@ -44,13 +44,13 @@ namespace GeoJSON.Text.Test.Benchmark
             public string GetLogicalGroupKey(ImmutableArray<BenchmarkCase> allBenchmarksCases, BenchmarkCase benchmarkCase) =>
                 benchmarkCase.Job.DisplayInfo + "_" + benchmarkCase.Parameters.DisplayInfo;
 
-            public IEnumerable<IGrouping<string, BenchmarkCase>> GetLogicalGroupOrder(IEnumerable<IGrouping<string, BenchmarkCase>> logicalGroups) =>
+            public IEnumerable<IGrouping<string, BenchmarkCase>> GetLogicalGroupOrder(IEnumerable<IGrouping<string, BenchmarkCase>> logicalGroups, IEnumerable<BenchmarkLogicalGroupRule>? order = null) =>
                 logicalGroups.OrderBy(it => it.Key);
 
             public IEnumerable<BenchmarkCase> GetSummaryOrder(ImmutableArray<BenchmarkCase> benchmarksCases, Summary summary)
             {
                 var benchmarkResult = from benchmark in benchmarksCases
-                                      orderby summary[benchmark].ResultStatistics.Mean
+                                      orderby summary[benchmark]?.ResultStatistics?.Mean ?? 0
                                       select benchmark;
 
                 return benchmarkResult;
