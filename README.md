@@ -1,4 +1,4 @@
-﻿[![Build and Test](https://github.com/GeoJSON-Net/GeoJSON.Text/actions/workflows/ci-build.yml/badge.svg?branch=main)](https://github.com/GeoJSON-Net/GeoJSON.Text/actions/workflows/ci-build.yml) [![codecov](https://codecov.io/gh/GeoJSON-Net/GeoJSON.Text/branch/main/graph/badge.svg?token=SE9XY1T8XO)](https://codecov.io/gh/GeoJSON-Net/GeoJSON.Text)
+﻿[![NuGet Version](http://img.shields.io/nuget/v/GeoJSON.Text.svg?style=flat)](https://www.nuget.org/packages/GeoJSON.Text/) [![Build and Test](https://github.com/GeoJSON-Net/GeoJSON.Text/actions/workflows/ci-build.yml/badge.svg?branch=main)](https://github.com/GeoJSON-Net/GeoJSON.Text/actions/workflows/ci-build.yml) [![codecov](https://codecov.io/gh/GeoJSON-Net/GeoJSON.Text/branch/main/graph/badge.svg?token=SE9XY1T8XO)](https://codecov.io/gh/GeoJSON-Net/GeoJSON.Text)
 
 # GeoJSON.Text
 GeoJSON.Text is a .NET library for the [RFC 7946 The GeoJSON Format](https://tools.ietf.org/html/rfc7946) and it uses and provides [System.Text.Json](https://docs.microsoft.com/en-us/dotnet/api/system.text.json?view=net-6.0) converters for serialization and deserialization of GeoJSON data.
