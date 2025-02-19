@@ -23,7 +23,6 @@ namespace GeoJSON.Text.Geometry
         /// The type of the object.
         /// </value>
         [JsonPropertyName("type")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         GeoJSONObjectType Type { get; }
     }
 }

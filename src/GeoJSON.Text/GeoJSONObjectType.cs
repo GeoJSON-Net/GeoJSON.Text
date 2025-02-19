@@ -1,12 +1,18 @@
 ﻿// Copyright © Joerg Battermann 2014, Matt Hunt 2017
 
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace GeoJSON.Text
 {
     /// <summary>
     /// Defines the GeoJSON Objects types.
     /// </summary>
+#if NET8_0_OR_GREATER
+    [JsonConverter(typeof(JsonStringEnumConverter<GeoJSONObjectType>))]
+#else
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+#endif
     public enum GeoJSONObjectType
     {
         /// <summary>
