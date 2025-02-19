@@ -10,7 +10,7 @@ namespace GeoJSON.Text.Converters
     /// <summary>
     /// Converts <see cref="ICRSObject"/> types to and from JSON.
     /// </summary>
-    public class CrsConverter : JsonConverter<object>
+    public class CrsConverter : JsonConverter<ICRSObject>
     {
         public override bool HandleNull => true;
 
@@ -41,7 +41,7 @@ namespace GeoJSON.Text.Converters
         ///     or
         /// CRS must have a "type" property
         /// </exception>
-        public override object Read(
+        public override ICRSObject Read(
             ref Utf8JsonReader reader,
             Type type,
             JsonSerializerOptions options)
@@ -106,7 +106,8 @@ namespace GeoJSON.Text.Converters
                 }
             }
 
-            return new NotSupportedException(string.Format("Type {0} unexpected.", crsType));
+            //return new NotSupportedException(string.Format("Type {0} unexpected.", crsType));
+            return null;
         }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace GeoJSON.Text.Converters
         /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         public override void Write(
             Utf8JsonWriter writer,
-            object crsValue,
+            ICRSObject crsValue,
             JsonSerializerOptions options)
         {
             var value = (ICRSObject)crsValue;
