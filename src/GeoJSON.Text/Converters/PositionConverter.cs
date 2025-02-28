@@ -55,30 +55,48 @@ namespace GeoJSON.Text.Converters
                 {
                     throw new ArgumentException("Expected number, but got end of data");
                 }
+
                 if (reader.TokenType == JsonTokenType.EndArray)
                 {
                     throw new ArgumentException("Expected 2 or 3 coordinates but got 0");
                 }
-                if (reader.TokenType != JsonTokenType.Number)
+
+                if (reader.TokenType == JsonTokenType.Number)
+                {
+                    lng = reader.GetDouble();
+                }
+                else if (reader.TokenType == JsonTokenType.String)
+                {
+                    lng = JsonSerializer.Deserialize<double>(ref reader, options);
+                }
+                else
                 {
                     throw new ArgumentException("Expected number but got other type");
                 }
-                lng = reader.GetDouble();
 
                 // Read latitude
                 if (!reader.Read())
                 {
                     throw new ArgumentException("Expected number, but got end of data");
                 }
+
                 if (reader.TokenType == JsonTokenType.EndArray)
                 {
                     throw new ArgumentException("Expected 2 or 3 coordinates but got 1");
                 }
-                if (reader.TokenType != JsonTokenType.Number)
+
+                if (reader.TokenType == JsonTokenType.Number)
+                {
+                    lat = reader.GetDouble();
+                }
+                else if (reader.TokenType == JsonTokenType.String)
+                {
+                    lat = JsonSerializer.Deserialize<double>(ref reader, options);
+                }
+                else
                 {
                     throw new ArgumentException("Expected number but got other type");
                 }
-                lat = reader.GetDouble();
 
                 // Read altitude, or return if end of array is found
                 if (!reader.Read())
@@ -96,6 +114,10 @@ namespace GeoJSON.Text.Converters
                 else if (reader.TokenType == JsonTokenType.Number)
                 {
                     alt = reader.GetDouble();
+                }
+                else if (reader.TokenType == JsonTokenType.String)
+                {
+                    alt = JsonSerializer.Deserialize<double>(ref reader, options);
                 }
                 else
                 {
