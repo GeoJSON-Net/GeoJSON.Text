@@ -84,6 +84,31 @@ namespace GeoJSON.Text.Tests.Geometry
         }
 
         [Test]
+        public void Can_Deserialize_With_Altitude()
+        {
+            var coordinates = new List<IPosition>
+            {
+                new Position(52.370725881211314, 4.889259338378906, 10.0),
+                new Position(52.3711451105601, 4.895267486572266, 10.5),
+                new Position(52.36931095278263, 4.892091751098633, null),
+                new Position(52.370725881211314, 4.889259338378906, 10.2)
+            };
+
+            var expectedLineString = new LineString(coordinates);
+
+            var json = GetExpectedJson();
+            var actualLineString = JsonSerializer.Deserialize<LineString>(json);
+
+            Assert.AreEqual(expectedLineString, actualLineString);
+
+            Assert.AreEqual(4, actualLineString.Coordinates.Count);
+            Assert.AreEqual(expectedLineString.Coordinates[0].Latitude, actualLineString.Coordinates[0].Latitude);
+            Assert.AreEqual(expectedLineString.Coordinates[0].Longitude, actualLineString.Coordinates[0].Longitude);
+            Assert.AreEqual(expectedLineString.Coordinates[0].Altitude, actualLineString.Coordinates[0].Altitude);
+            Assert.AreEqual(expectedLineString.Coordinates[2].Altitude, actualLineString.Coordinates[2].Altitude);
+        }
+
+        [Test]
         public void Constructor_No_Coordinates_Throws_Exception()
         {
             var coordinates = new List<IPosition>();

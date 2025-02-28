@@ -22,6 +22,7 @@
     <None Remove="Feature\GenericFeatureTests_Can_Deserialize_Typed_Point_Feature.json" />
     <None Remove="Feature\GenericFeatureTests_Can_Serialize_Typed_Point_Feature.json" />
     <None Remove="Geometry\LineStringTests_Can_Deserialize.json" />
+    <None Remove="Geometry\LineStringTests_Can_Deserialize_With_Altitude.json" />
     <None Remove="Geometry\LineStringTests_Can_Serialize.json" />
     <None Remove="Geometry\MultiLineStringTests_Can_Deserialize.json" />
     <None Remove="Geometry\MultiLineStringTests_Can_Serialize.json" />
@@ -75,6 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoJSON.Text\GeoJSON.Text.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Geometry\LineStringTests_Can_Deserialize_With_Altitude.json" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Feature\*.json">
