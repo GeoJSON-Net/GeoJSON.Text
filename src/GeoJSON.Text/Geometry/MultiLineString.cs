@@ -46,7 +46,6 @@ namespace GeoJSON.Text.Geometry
 
         [JsonPropertyName("type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public override GeoJSONObjectType Type => GeoJSONObjectType.MultiLineString;
 
         /// <summary>

@@ -55,7 +55,6 @@ namespace GeoJSON.Text
         /// </summary>
         [JsonPropertyName("type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public abstract GeoJSONObjectType Type { get; }
 
 
