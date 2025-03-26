@@ -15,7 +15,10 @@ namespace GeoJSON.Text
     {
         public bool Equals(double x, double y)
         {
-            return Math.Abs(x - y) < 0.0000000001;
+            return (double.IsNaN(x) && double.IsNaN(y)) ||
+                    (double.IsInfinity(x) && double.IsInfinity(y)) ||
+                    (double.IsNegativeInfinity(x) && double.IsNegativeInfinity(y)) ||
+                    Math.Abs(x - y) < 0.0000000001;
         }
 
         public int GetHashCode(double obj)
